@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="WinForms\EditTaksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WinForms\ListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\PipelineListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\PipelinesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\PipelineTaskListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\PipelineTasksControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\PipelineToolControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\PipelineToolForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WinForms\TextBoxDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WinForms\Tree\TaskTypeTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
