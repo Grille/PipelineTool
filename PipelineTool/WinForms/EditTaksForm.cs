@@ -205,7 +205,7 @@ public partial class EditTaksForm : Form
         textBoxType.Text = treeViewTypes.SelectedNode.ToString();
 
         var oldTask = Task;
-        Task = PipelineTaskList.CreateUnbound(type);
+        Task = PipelineTask.FromType(type);
 
         if (keepValues)
         {

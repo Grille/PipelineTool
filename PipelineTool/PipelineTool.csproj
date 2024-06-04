@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
+		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -14,7 +14,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<NeutralLanguage>aa-ER</NeutralLanguage>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>

@@ -18,15 +18,11 @@ namespace Grille.PipelineTool;
 
 public partial class PipelineToolForm : Form
 {
-    public const string DefaultPath = "pipelines.txt";
+    public PipelineList Pipelines => PipelineToolControl.Pipelines;
 
-    public string FilePath { get; set; } = DefaultPath;
+    public PipelinesControl PipelinesControl => PipelineToolControl.PipelinesControl;
 
-    public PipelineList Pipelines => pipelineToolControl1.Pipelines;
-
-    public PipelinesControl PipelinesControl => pipelineToolControl1.PipelinesControl;
-
-    public PipelineTasksControl TasksControl => pipelineToolControl1.TasksControl!;
+    public PipelineTasksControl TasksControl => PipelineToolControl.TasksControl!;
 
 
     public PipelineToolForm()
@@ -35,12 +31,26 @@ public partial class PipelineToolForm : Form
 
         var piplines = PipelinesControl.Pipelines;
 
-        if (File.Exists(FilePath))
-            LoadFile();
+        if (File.Exists(PipelineToolControl.FilePath))
+            PipelineToolControl.LoadFile();
 
         PipelinesControl.InvalidateItems();
         if (piplines.Count > 0)
             PipelinesControl.SelectedItem = piplines[0];
+
+        PipelineToolControl.UnsavedChangesChanged += PipelineToolControl_UnsavedChangesChanged;
+    }
+
+    private void PipelineToolControl_UnsavedChangesChanged(object? sender, EventArgs e)
+    {
+        if (PipelineToolControl.UnsavedChanges)
+        {
+            Text = "Pipeline Tool *unsaved changes";
+        }
+        else
+        {
+            Text = "Pipeline Tool";
+        }
     }
 
     private void quitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -56,45 +66,24 @@ public partial class PipelineToolForm : Form
 
     private void openToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        using var dialog = new OpenFileDialog();
-        if (dialog.ShowDialog() == DialogResult.OK)
-        {
-            FilePath = dialog.FileName;
-            Catch(LoadFile);
-            PipelinesControl.InvalidateItems();
-        }
+        PipelineToolControl.ShowOpenFileDialog();
     }
 
     private void saveToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        Catch(SaveFile);
+        PipelineToolControl.SaveFile();
     }
 
     private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        using var dialog = new SaveFileDialog();
-        if (dialog.ShowDialog() == DialogResult.OK)
+        PipelineToolControl.ShowSaveFileDialog();
+    }
+
+    private void PipelineToolForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        if (PipelineToolControl.ShowSaveExitDialog() == DialogResult.Cancel)
         {
-            FilePath = dialog.FileName;
-            Catch(SaveFile);
+            e.Cancel = true;
         }
-    }
-
-    public void SaveFile()
-    {
-        using var stream = File.Create(FilePath);
-        TextSerializer.Serialize(stream, Pipelines);
-    }
-
-    public void LoadFile()
-    {
-        using var stream = File.OpenRead(FilePath);
-        Pipelines.Clear();
-        TextSerializer.Deserialize(stream, Pipelines);
-    }
-
-    private void Catch(Action action)
-    {
-        ExceptionBox.Show(this, action);
     }
 }

@@ -7,8 +7,8 @@ using System.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Clear directory")]
-internal class ClearDir : PipelineTask
+[PipelineTask("IO/Directory.Clear")]
+internal class DirectoryClear : PipelineTask
 {
     protected override void OnInit()
     {
@@ -33,7 +33,7 @@ internal class ClearDir : PipelineTask
 
     public override Token[] ToTokens() => new Token[]
     {
-        new(TokenType.Text, $"Clear dir "),
+        new(TokenType.Text, $"Clear Directory "),
         new(TokenType.Variable, Parameters["Dir"]),
     };
 }

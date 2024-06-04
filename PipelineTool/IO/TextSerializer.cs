@@ -1,5 +1,6 @@
 ﻿using Grille.PipelineTool.Tasks;
 using Grille.PipelineTool.Tasks.Program;
+using Grille.PipelineTool.Tasks.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -32,6 +33,9 @@ public static class TextSerializer
             Register<Input>("In");
             Register<Return>("Return");
             Register<VariableOperation>("$");
+
+            Register<StringContains>("String.Contains");
+            Register<StringReplace>("String.Replace");
         }
 
         public static void Register<T>(string key) where T : PipelineTask
@@ -257,6 +261,8 @@ public static class TextSerializer
                 {
                     task.Parameters[i] = args[i];
                 }
+
+                task.Enabled = enabled;
 
                 result.Add(task);
             }

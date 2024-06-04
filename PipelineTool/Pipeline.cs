@@ -16,20 +16,11 @@ namespace Grille.PipelineTool;
 
 public class Pipeline
 {
-    const int Magic = 23658;
-
     public string Name { get; set; }
 
     public PipelineList Owner { get; }
 
-    //public Dictionary<string, string> Variables { get; }
-
-    //public int TaskPosition { get; set; }
-
     public PipelineTaskList Tasks { get; private set; }
-
-    //public Stack<Pipeline> CallStack { get; private set; }
-
 
 
     public Pipeline(PipelineList owner, string name)

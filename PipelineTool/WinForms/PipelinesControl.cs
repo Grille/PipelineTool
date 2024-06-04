@@ -14,6 +14,13 @@ namespace Grille.PipelineTool.WinForms
 {
     public partial class PipelinesControl : UserControl
     {
+        public event EventHandler? ItemsChanged;
+
+        protected void OnItemsChanged()
+        {
+            ItemsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public AsyncPipelineExecuter Executer { get; }
 
         public PipelineList Pipelines { get; }
@@ -34,12 +41,13 @@ namespace Grille.PipelineTool.WinForms
 
         public TextBoxDialog TextBoxDialog { get; }
 
+        public ILogger Logger { get => Executer.Runtime.Logger; set => Executer.Runtime.Logger = value; }
+
         public PipelinesControl()
         {
             InitializeComponent();
 
-            var logger = new ConsoleLogger();
-            Executer = new AsyncPipelineExecuter(logger);
+            Executer = new AsyncPipelineExecuter();
             Pipelines = new PipelineList();
             ListBox.BoundItems = Pipelines;
 
@@ -48,6 +56,13 @@ namespace Grille.PipelineTool.WinForms
             Executer.Runtime.PositionChanged += Executer_PositionChanged;
 
             Executer.ExecutionDone += Executer_ExecutionDone;
+
+            ListBox.ItemsChanged += ListBox_ItemsChanged;
+        }
+
+        private void ListBox_ItemsChanged(object? sender, EventArgs e)
+        {
+            OnItemsChanged();
         }
 
         bool invalidated = false;
@@ -101,13 +116,10 @@ namespace Grille.PipelineTool.WinForms
             stopToolStripMenuItem.Enabled = ButtonStop.Enabled = running;
         }
 
-        public void InvalidateItems(bool save = true)
+        public void InvalidateItems()
         {
             ListBox.UpdateItems(Pipelines);
             UpdateEnabledActions();
-
-            //if (save)
-            //    Pipelines.Save();
         }
 
         private void ListBoxIndexChanged(object sender, EventArgs e)
@@ -140,9 +152,11 @@ namespace Grille.PipelineTool.WinForms
                 string newname = TextBoxDialog.TextResult.Trim();
                 string uname = Pipelines.GetUniqueName(newname);
                 var pipeline = Pipelines.CreateUnbound(uname);
-                Pipelines.InsertAfter(SelectedItem, pipeline);
+                Pipelines!.InsertAfter(SelectedItem, pipeline);
                 InvalidateItems();
                 SelectedItem = pipeline;
+
+                OnItemsChanged();
             }
         }
 
@@ -167,6 +181,8 @@ namespace Grille.PipelineTool.WinForms
                 Pipelines.Rename(name, uname);
                 ListBox.Items.Add(0);
                 InvalidateItems();
+
+                OnItemsChanged();
             }
         }
 

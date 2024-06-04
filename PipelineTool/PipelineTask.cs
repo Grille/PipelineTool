@@ -31,6 +31,27 @@ public abstract class PipelineTask
 
     public PipelineTask() : this(true) { }
 
+    public static PipelineTask FromType(string assemblyQualifiedName)
+    {
+        var type = Type.GetType(assemblyQualifiedName);
+        if (type == null)
+            throw new ArgumentException($"Type {assemblyQualifiedName} could not be resolved.");
+
+        return FromType(type);
+    }
+
+    public static PipelineTask FromType(Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+
+        var obj = Activator.CreateInstance(type);
+        if (obj == null)
+            throw new ArgumentException("Instance creation failed.");
+
+        var task = (PipelineTask)obj;
+        return task;
+    }
+
     public void Init()
     {
         OnInit();
@@ -97,7 +118,7 @@ public abstract class PipelineTask
     public virtual PipelineTask Clone()
     {
         var type = GetType();
-        var clone = PipelineTaskList.CreateUnbound(type);
+        var clone = FromType(type);
 
         var keys = Parameters.Keys;
         foreach (var key in keys)
@@ -178,13 +199,14 @@ public abstract class PipelineTask
         return sb.ToString();
     }
 
-    protected string EvalParameter(Parameter parameter)
+    protected VariableValue EvalParameter(Parameter parameter)
     {
         ArgumentNullException.ThrowIfNull(Runtime);
 
         return Runtime.EvalParameter(parameter);
     }
-    protected string EvalParameter(in string name)
+
+    protected VariableValue EvalParameter(in string name)
     {
         ArgumentNullException.ThrowIfNull(Runtime);
 

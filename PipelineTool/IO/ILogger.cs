@@ -17,6 +17,8 @@ public interface ILogger
 
 class ConsoleLogger : ILogger
 {
+    public static ConsoleLogger Instance { get; } = new ConsoleLogger();
+
     public void WriteLine(string text, ConsoleColor color)
     {
         Console.ForegroundColor = color;

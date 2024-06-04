@@ -35,7 +35,7 @@ internal class For : PipelineTask
         int istart = int.Parse(start);
         int iend = int.Parse(end);
 
-        for (int i = istart; i < iend; i++)
+        for (int i = istart; i <= iend; i++)
         {
             Runtime.Variables[variable] = i.ToString();
             Runtime.ExecuteNextBlock();

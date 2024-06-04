@@ -16,39 +16,16 @@ public class PipelineTaskList : List<PipelineTask>
         Pipeline = pipeline;
     }
 
-    public new void Add(PipelineTask task)
-    {
-        base.Add(task);
-    }
-
-    public static PipelineTask CreateUnbound(string assemblyQualifiedName)
-    {
-        var type = Type.GetType(assemblyQualifiedName);
-        return CreateUnbound(type!);
-    }
-
-    public static PipelineTask CreateUnbound(Type type)
-    {
-        ArgumentNullException.ThrowIfNull(type);
-
-        var obj = Activator.CreateInstance(type);
-        if (obj == null)
-            throw new InvalidOperationException("Instance creation failed.");
-
-        var task = (PipelineTask)obj;
-        return task;
-    }
-
     public PipelineTask Create(string assemblyQualifiedName)
     {
-        var task = CreateUnbound(assemblyQualifiedName);
+        var task = PipelineTask.FromType(assemblyQualifiedName);
         Add(task);
         return task;
     }
 
     public PipelineTask Create(Type type)
     {
-        var task = CreateUnbound(type);
+        var task = PipelineTask.FromType(type);
         Add(task);
         return task;
     }

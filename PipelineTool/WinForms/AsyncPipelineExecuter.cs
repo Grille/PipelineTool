@@ -19,9 +19,9 @@ public class AsyncPipelineExecuter
 
     public event EventHandler? ExecutionDone;
 
-    public AsyncPipelineExecuter(ILogger logger)
+    public AsyncPipelineExecuter()
     {
-        Runtime = new Runtime(logger);
+        Runtime = new Runtime();
 
         _task = Task.CompletedTask;
     }

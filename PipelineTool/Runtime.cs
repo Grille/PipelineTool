@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace Grille.PipelineTool;
 
-using Variables = Dictionary<string, string>;
+using Variables = Dictionary<string, VariableValue>;
 
 public class Runtime
 {
@@ -49,9 +49,9 @@ public class Runtime
 
     public Stack<Variables> ScopeStack { get; }
 
-    public Stack<string> ValueStack { get; }
+    public Stack<VariableValue> ValueStack { get; }
 
-    public ILogger Logger { get; }
+    public ILogger Logger { get; set; }
 
     public Variables Variables => ScopeStack.Peek();
 
@@ -73,12 +73,12 @@ public class Runtime
         }
     }
 
-    public Runtime(ILogger logger)
+    public Runtime()
     {
         CallStack = new();
         ScopeStack = new();
         ValueStack = new();
-        Logger = logger;
+        Logger = ConsoleLogger.Instance;
     }
 
     private void InvPosChanged()
@@ -141,7 +141,7 @@ public class Runtime
         }
     }
 
-    public string EvalParameter(Parameter parameter)
+    public VariableValue EvalParameter(Parameter parameter)
     {
         return EvalParameterValue(parameter.Value);
     }
@@ -232,14 +232,14 @@ public class Runtime
         }
     }
 
-    public string EvalParameterValue(string value)
+    public VariableValue EvalParameterValue(string value)
     {
         if (value.Length == 0)
             return value;
 
         if (value[0] == '*')
         {
-            var key = EvalParameterValue(value.Substring(1));
+            var key = (string)EvalParameterValue(value.Substring(1));
             if (!Variables.ContainsKey(key))
             {
                 throw new InvalidOperationException($"Variable '{key}' not found.");
@@ -248,7 +248,7 @@ public class Runtime
         }
         if (value[0] == '$')
         {
-            var exp = EvalParameterValue(value.Substring(1));
+            var exp = (string)EvalParameterValue(value.Substring(1));
 
             var list = new List<string>();
             var split0 = exp.Split("{");

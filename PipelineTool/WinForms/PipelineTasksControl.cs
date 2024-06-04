@@ -14,6 +14,13 @@ namespace Grille.PipelineTool.WinForms
 {
     public partial class PipelineTasksControl : UserControl
     {
+        public event EventHandler? ItemsChanged;
+
+        protected void OnItemsChanged()
+        {
+            ItemsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         Pipeline? _pipeline;
         public Pipeline? Pipeline
         {
@@ -46,8 +53,13 @@ namespace Grille.PipelineTool.WinForms
         {
             InitializeComponent();
             EditTaksForm = new EditTaksForm();
+            ListBox.ItemsChanged += ListBox_ItemsChanged;
         }
 
+        private void ListBox_ItemsChanged(object? sender, EventArgs e)
+        {
+            OnItemsChanged();
+        }
 
         public void SetEnabledActions()
         {
@@ -93,10 +105,12 @@ namespace Grille.PipelineTool.WinForms
 
             var task = new NopTask();
 
-            Pipeline.Tasks.InsertAfter(SelectedItem, task);
+            Pipeline.Tasks!.InsertAfter(SelectedItem, task);
             InvalidateItems();
             SelectedItem = null!;
             SelectedItem = task;
+
+            OnItemsChanged();
 
             /*
             var result = EditTaksForm.ShowDialog(this, Pipeline);
@@ -122,6 +136,8 @@ namespace Grille.PipelineTool.WinForms
                 int idx = Pipeline.Tasks.IndexOf(SelectedItem);
                 Pipeline.Tasks[idx] = EditTaksForm.Task;
                 InvalidateItems();
+
+                OnItemsChanged();
             }
         }
 

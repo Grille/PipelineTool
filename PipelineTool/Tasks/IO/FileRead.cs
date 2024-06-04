@@ -7,26 +7,27 @@ using System.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Load file")]
-internal class ReadFile : PipelineTask
+[PipelineTask("IO/File.Read")]
+internal class FileRead : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Src", "", "SrcFile");
+        Parameters.Def(ParameterTypes.String, "Path", "", "SrcFile");
         Parameters.Def(ParameterTypes.String, "Variable", "", "Var");
     }
 
     protected override void OnExecute()
     {
-        var src = EvalParameter("Src");
+        var src = EvalParameter("Path");
         var var = EvalParameter("Variable");
+
         Runtime.Variables[var] = File.ReadAllText(src);
     }
 
     public override Token[] ToTokens() => new Token[]
     {
-        new(TokenType.Text, "Load file "),
-        new(TokenType.Variable, Parameters["Src"]),
+        new(TokenType.Text, "Read File "),
+        new(TokenType.Variable, Parameters["Path"]),
         new(TokenType.Text, " as "),
         new(TokenType.Variable, Parameters["Variable"]),
     };

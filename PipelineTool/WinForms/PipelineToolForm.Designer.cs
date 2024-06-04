@@ -31,6 +31,7 @@ namespace Grille.PipelineTool
         /// </summary>
         private void InitializeComponent()
         {
+            IO.ConsoleLogger consoleLogger1 = new IO.ConsoleLogger();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newToolStripMenuItem = new ToolStripMenuItem();
@@ -40,7 +41,7 @@ namespace Grille.PipelineTool
             saveAsToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             quitToolStripMenuItem = new ToolStripMenuItem();
-            pipelineToolControl1 = new PipelineToolControl();
+            PipelineToolControl = new PipelineToolControl();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -115,25 +116,28 @@ namespace Grille.PipelineTool
             quitToolStripMenuItem.Text = "Exit";
             quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
             // 
-            // pipelineToolControl1
+            // PipelineToolControl
             // 
-            pipelineToolControl1.Dock = DockStyle.Fill;
-            pipelineToolControl1.Location = new System.Drawing.Point(0, 24);
-            pipelineToolControl1.Name = "pipelineToolControl1";
-            pipelineToolControl1.Size = new System.Drawing.Size(784, 537);
-            pipelineToolControl1.TabIndex = 1;
+            PipelineToolControl.Dock = DockStyle.Fill;
+            PipelineToolControl.FilePath = "pipelines.txt";
+            PipelineToolControl.Location = new System.Drawing.Point(0, 24);
+            PipelineToolControl.Logger = consoleLogger1;
+            PipelineToolControl.Name = "PipelineToolControl";
+            PipelineToolControl.Size = new System.Drawing.Size(784, 537);
+            PipelineToolControl.TabIndex = 1;
             // 
             // PipelineToolForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(784, 561);
-            Controls.Add(pipelineToolControl1);
+            Controls.Add(PipelineToolControl);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
             MainMenuStrip = menuStrip1;
             Name = "PipelineToolForm";
             Text = "Synetic Pipeline Tool";
+            FormClosing += PipelineToolForm_FormClosing;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -151,6 +155,6 @@ namespace Grille.PipelineTool
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem quitToolStripMenuItem;
-        private PipelineToolControl pipelineToolControl1;
+        private PipelineToolControl PipelineToolControl;
     }
 }

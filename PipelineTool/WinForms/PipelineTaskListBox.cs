@@ -147,6 +147,8 @@ public class PipelineTaskListBox : ListBox<PipelineTask>
             }
         }
         Invalidate();
+
+        OnItemsChanged();
     }
 
     public void MoveSelectedItemsRight()
@@ -158,6 +160,8 @@ public class PipelineTaskListBox : ListBox<PipelineTask>
             task.Scope += 1;
         }
         Invalidate();
+
+        OnItemsChanged();
     }
 
     protected override void OnCopyToClipboard()

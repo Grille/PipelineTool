@@ -25,7 +25,7 @@ public class ShowMsgBox : PipelineTask
         var icon = EvalParameter("Mode");
         var variable = EvalParameter("Variable");
 
-        var ico = mode switch
+        var ico = (string)mode switch
         {
             "Error" => MessageBoxIcon.Error,
             "Warn" => MessageBoxIcon.Warning,
@@ -33,7 +33,7 @@ public class ShowMsgBox : PipelineTask
             _ => MessageBoxIcon.None
         };
 
-        var buttons = mode switch
+        var buttons = (string)mode switch
         {
             "Ok/Cancel" => MessageBoxButtons.OKCancel,
             _ => MessageBoxButtons.OK

@@ -14,6 +14,13 @@ namespace Grille.PipelineTool.WinForms;
 
 public abstract class ListBox<T> : ListBox where T : class
 {
+    public event EventHandler? ItemsChanged;
+
+    protected void OnItemsChanged()
+    {
+        ItemsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public List<T> BoundItems { get; set; }
 
     public new T? SelectedItem
@@ -272,6 +279,8 @@ public abstract class ListBox<T> : ListBox where T : class
         }
         UpdateItems(BoundItems);
         SelectedItems = selected;
+
+        OnItemsChanged();
     }
 
     public void MoveSelectedItemsDown()
@@ -284,6 +293,8 @@ public abstract class ListBox<T> : ListBox where T : class
         }
         UpdateItems(BoundItems);
         SelectedItems = selected;
+
+        OnItemsChanged();
     }
 
     public void RemoveSelectedItems()
@@ -294,6 +305,8 @@ public abstract class ListBox<T> : ListBox where T : class
             BoundItems.Remove(item);
         }
         UpdateItems(BoundItems);
+
+        OnItemsChanged();
     }
 
     public void SelectAll()
@@ -330,5 +343,7 @@ public abstract class ListBox<T> : ListBox where T : class
 
         UpdateItems(BoundItems);
         SelectedItems = values;
+
+        OnItemsChanged();
     }
 }
