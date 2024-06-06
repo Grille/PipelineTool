@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -49,7 +50,17 @@ public static class TextSerializer
         {
             Type? type;
             if (!_byKey.TryGetValue(key, out type))
-                type = Type.GetType(key);
+            {
+                var split = key.Split(':', 2);
+                if (split.Length == 2)
+                {
+                    type = Type.GetType($"{split[1]}, {split[0]}");
+                }
+                else
+                {
+                    type = Type.GetType(key);
+                }
+            }
 
             if (type == null)
                 return new InvalidTypeTask(key, argCount);
@@ -66,7 +77,7 @@ public static class TextSerializer
             if (_byType.TryGetValue(type, out var key))
                 return key;
             
-            return type.FullName!;
+            return $"{type.Assembly.GetName().Name}:{type.FullName}";
         }
     }
 
@@ -74,76 +85,91 @@ public static class TextSerializer
 
     public static void Register<T>(string key) where T : PipelineTask => Register<T>(key);
 
-    public static void Serialize(Stream stream, IList<Pipeline> pipelines)
+    private static StreamWriter CreateWriter(Stream stream)
     {
-        using var tw = new StreamWriter(stream, leaveOpen: true);
-        tw.WriteLine($"#Spaces 4");
-        tw.WriteLine();
-        tw.Flush();
-        foreach (var pipeline in pipelines)
-        {
-            Serialize(stream, pipeline);
-        }
+        var writer = new StreamWriter(stream, leaveOpen: true);
+        writer.WriteLine($"#Version 1");
+        writer.WriteLine($"#Spaces 4");
+        writer.WriteLine();
+        writer.Flush();
+        return writer;
     }
 
-    public static void Serialize(Stream stream, Pipeline pipeline)
+    public static void Serialize(Stream stream, IList<Pipeline> pipelines)
     {
-        using var tw = new StreamWriter(stream, leaveOpen: true);
-        tw.WriteLine($"[{pipeline.Name}]");
-        tw.Flush();
-        Serialize(stream, pipeline.Tasks);
-        tw.WriteLine();
+        using var writer = CreateWriter(stream);
+        Serialize(writer, pipelines);
     }
 
     public static void Serialize(Stream stream, IList<PipelineTask> tasks)
     {
-        foreach (var task in tasks)
+        using var writer = CreateWriter(stream);
+        Serialize(writer, tasks);
+    }
+
+    private static void Serialize(StreamWriter writer, IList<Pipeline> pipelines)
+    {
+        foreach (var pipeline in pipelines)
         {
-            Serialize(stream, task);
+            Serialize(writer, pipeline);
         }
     }
 
-    public static void Serialize(Stream stream, PipelineTask task)
+    private static void Serialize(StreamWriter writer, Pipeline pipeline)
     {
-        using var tw = new StreamWriter(stream, leaveOpen: true);
+        writer.WriteLine($"[{pipeline.Name}]");
+        writer.Flush();
+        Serialize(writer, pipeline.Tasks);
+        writer.WriteLine();
+    }
 
+    private static void Serialize(StreamWriter writer, IList<PipelineTask> tasks)
+    {
+        foreach (var task in tasks)
+        {
+            Serialize(writer, task);
+        }
+    }
+
+    private static void Serialize(StreamWriter writer, PipelineTask task)
+    {
         for (int i = 0; i < task.Scope * Spaces; i++)
         {
-            tw.Write(" ");
+            writer.Write(" ");
         }
 
         if (task is NopTask)
         {
             var text = task.Parameters["Text"];
-            tw.Write("//");
-            tw.Write(text);
-            tw.WriteLine();
+            writer.Write("//");
+            writer.Write(text);
+            writer.WriteLine();
             return;
         }
 
         if (!task.Enabled)
         {
-            tw.Write("!");
+            writer.Write("!");
         }
 
         string name = TypeRegistry.Get(task);
 
-        tw.Write(name);
-        tw.Write("(");
+        writer.Write(name);
+        writer.Write("(");
 
         var parameters = task.Parameters;
         for (int i = 0; i < parameters.Count; i++)
         {
             var value = parameters[i];
-            Write(tw, value);
+            Write(writer, value);
             if (i < parameters.Count - 1)
             {
-                tw.Write(",");
+                writer.Write(",");
             }
         }
 
-        tw.Write(")");
-        tw.WriteLine();
+        writer.Write(")");
+        writer.WriteLine();
     }
 
     private static void Write(TextWriter tw, string text) {

@@ -22,10 +22,12 @@ public partial class PipelineToolControl : UserControl
 
     public bool UnsavedChanges { get; private set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string FilePath { get; set; } = DefaultPath;
 
     public PipelineList Pipelines => PipelinesControl.Pipelines;
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ILogger Logger {get => PipelinesControl.Logger; set => PipelinesControl.Logger = value; }
 
     public PipelineToolControl()
