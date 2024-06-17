@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
@@ -27,8 +28,8 @@ internal class FileExists : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, "File Exists "),
-        new(TokenType.Variable, Parameters["Path"]),
+        new(TokenType.Expression, Parameters["Path"]),
         new(TokenType.Text, " as "),
-        new(TokenType.Variable, Parameters["Variable"]),
+        new(TokenType.Expression, Parameters["Variable"]),
     };
 }

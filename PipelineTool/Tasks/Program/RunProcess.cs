@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -31,8 +32,8 @@ internal class RunProcess : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, "Run "),
-        new(TokenType.Variable, Parameters["Path"]),
+        new(TokenType.Expression, Parameters["Path"]),
         new(TokenType.Text, " "),
-        new(TokenType.Variable, Parameters["Args"]),
+        new(TokenType.Expression, Parameters["Args"]),
     };
 }

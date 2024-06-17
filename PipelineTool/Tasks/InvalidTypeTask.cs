@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks;
 
@@ -50,7 +51,7 @@ internal class InvalidTypeTask : PipelineTask
     {
         string name = AssemblyQualifiedName.Split(',', 2)[0];
         var tokens = base.ToTokens();
-        tokens[0] = (TokenType.Error, $"!{name}");
+        tokens[0] = new Token(TokenType.Error, $"!{name}");
         return tokens;
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
@@ -34,6 +35,6 @@ internal class DirectoryClear : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, $"Clear Directory "),
-        new(TokenType.Variable, Parameters["Dir"]),
+        new(TokenType.Expression, Parameters["Dir"]),
     };
 }

@@ -31,7 +31,6 @@ namespace Grille.PipelineTool
         /// </summary>
         private void InitializeComponent()
         {
-            IO.ConsoleLogger consoleLogger1 = new IO.ConsoleLogger();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newToolStripMenuItem = new ToolStripMenuItem();
@@ -119,9 +118,7 @@ namespace Grille.PipelineTool
             // PipelineToolControl
             // 
             PipelineToolControl.Dock = DockStyle.Fill;
-            PipelineToolControl.FilePath = "pipelines.txt";
             PipelineToolControl.Location = new System.Drawing.Point(0, 24);
-            PipelineToolControl.Logger = consoleLogger1;
             PipelineToolControl.Name = "PipelineToolControl";
             PipelineToolControl.Size = new System.Drawing.Size(784, 537);
             PipelineToolControl.TabIndex = 1;

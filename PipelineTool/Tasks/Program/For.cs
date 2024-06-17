@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections.ObjectModel;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.Program;
 
@@ -46,11 +47,11 @@ internal class For : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new Token(TokenType.Flow, $"For "),
-        new Token(TokenType.Variable, Parameters["Start"]),
+        new Token(TokenType.Expression, Parameters["Start"]),
         new Token(TokenType.Text, $" to "),
-        new Token(TokenType.Variable, Parameters["End"]),
+        new Token(TokenType.Expression, Parameters["End"]),
         new Token(TokenType.Text, $" as "),
-        new Token(TokenType.Variable, Parameters["Variable"]),
+        new Token(TokenType.Expression, Parameters["Variable"]),
         new Token(TokenType.Text, $":"),
     };
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,6 @@ internal class GoTo : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new Token(TokenType.Flow, "GoTo: "),
-        new Token(TokenType.Variable, Parameters["Line"]),
+        new Token(TokenType.Expression, Parameters["Line"]),
     };
 }

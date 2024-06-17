@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -49,10 +50,10 @@ internal class VariableOperation : PipelineTask
 
     public override Token[] ToTokens() => new Token[]
     {
-        new Token(TokenType.Variable, Parameters["Name"]),
+        new Token(TokenType.Expression, Parameters["Name"]),
         new Token(TokenType.Text, " "),
-        new Token(TokenType.Variable, Parameters["Operator"]),
+        new Token(TokenType.Expression, Parameters["Operator"]),
         new Token(TokenType.Text, " "),
-        new Token(TokenType.Variable, Parameters["Value"]),
+        new Token(TokenType.Expression, Parameters["Value"]),
     };
 }

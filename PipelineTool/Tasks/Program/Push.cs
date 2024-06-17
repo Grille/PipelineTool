@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -25,6 +26,6 @@ internal class Push : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new Token(TokenType.Text, "Push "),
-        new Token(TokenType.Variable, Parameters["Value"]),
+        new Token(TokenType.Expression, Parameters["Value"]),
     };
 }

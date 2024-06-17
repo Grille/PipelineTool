@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
@@ -27,8 +28,8 @@ internal class FileMove : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, "Rename File "),
-        new(TokenType.Variable, Parameters["Src FileName"]),
+        new(TokenType.Expression, Parameters["Src FileName"]),
         new(TokenType.Text, " -> "),
-        new(TokenType.Variable, Parameters["Dst FileName"]),
+        new(TokenType.Expression, Parameters["Dst FileName"]),
     };
 }

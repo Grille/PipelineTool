@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -135,28 +136,6 @@ public abstract class PipelineTask
         target.Tasks.Add(clone);
     }
 
-    public enum TokenType
-    {
-        Text,
-        Variable,
-        Comment,
-        Error,
-        Flow,
-    }
-
-    public record class Token(TokenType Type, string Text)
-    {
-        public static implicit operator Token((TokenType, string) tuple)
-        {
-            return new Token(tuple.Item1, tuple.Item2);
-        }
-
-        public static implicit operator Token(string text)
-        {
-            return new Token(TokenType.Text, text);
-        }
-    }
-
     public virtual Token[] ToTokens()
     {
         string name = GetType().Name;
@@ -177,7 +156,7 @@ public abstract class PipelineTask
         Add(TokenType.Text, "(");
         for (int i = 0; i < count; i++)
         {
-            Add(TokenType.Variable, values[i]);
+            Add(TokenType.Expression, values[i]);
             if (i < count - 1)
             {
                 Add(TokenType.Text, ",");

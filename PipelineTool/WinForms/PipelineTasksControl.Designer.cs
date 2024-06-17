@@ -36,6 +36,7 @@
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             upToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +57,6 @@
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             ButtonLeft = new System.Windows.Forms.ToolStripButton();
             ButtonRight = new System.Windows.Forms.ToolStripButton();
-            pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -105,13 +105,13 @@
             // 
             contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { newToolStripMenuItem, editToolStripMenuItem, removeToolStripMenuItem, copyToolStripMenuItem, pasteToolStripMenuItem, enabledToolStripMenuItem, toolStripSeparator2, upToolStripMenuItem, downToolStripMenuItem, toolStripSeparator3, leftToolStripMenuItem, rightToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new System.Drawing.Size(181, 258);
+            contextMenuStrip1.Size = new System.Drawing.Size(117, 236);
             // 
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Image = Properties.Resources.New;
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            newToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += NewClick;
             // 
@@ -119,7 +119,7 @@
             // 
             editToolStripMenuItem.Image = Properties.Resources.Edit;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            editToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             editToolStripMenuItem.Text = "Edit";
             editToolStripMenuItem.Click += EditClick;
             // 
@@ -127,7 +127,7 @@
             // 
             removeToolStripMenuItem.Image = Properties.Resources.Delete;
             removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            removeToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             removeToolStripMenuItem.Text = "Delete";
             removeToolStripMenuItem.Click += DeleteClick;
             // 
@@ -135,28 +135,36 @@
             // 
             copyToolStripMenuItem.Image = Properties.Resources.Copy;
             copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            copyToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             copyToolStripMenuItem.Text = "Copy";
             copyToolStripMenuItem.Click += CopyClick;
+            // 
+            // pasteToolStripMenuItem
+            // 
+            pasteToolStripMenuItem.Image = Properties.Resources.Paste;
+            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            pasteToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            pasteToolStripMenuItem.Text = "Paste";
+            pasteToolStripMenuItem.Click += ButtonPaste_Click;
             // 
             // enabledToolStripMenuItem
             // 
             enabledToolStripMenuItem.Image = Properties.Resources.ToggleButton;
             enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
-            enabledToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            enabledToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             enabledToolStripMenuItem.Text = "Enabled";
             enabledToolStripMenuItem.Click += EnabledClick;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            toolStripSeparator2.Size = new System.Drawing.Size(113, 6);
             // 
             // upToolStripMenuItem
             // 
             upToolStripMenuItem.Image = Properties.Resources.MoveUp;
             upToolStripMenuItem.Name = "upToolStripMenuItem";
-            upToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            upToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             upToolStripMenuItem.Text = "Up";
             upToolStripMenuItem.Click += UpClick;
             // 
@@ -164,20 +172,20 @@
             // 
             downToolStripMenuItem.Image = Properties.Resources.MoveDown;
             downToolStripMenuItem.Name = "downToolStripMenuItem";
-            downToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            downToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             downToolStripMenuItem.Text = "Down";
             downToolStripMenuItem.Click += DownClick;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            toolStripSeparator3.Size = new System.Drawing.Size(113, 6);
             // 
             // leftToolStripMenuItem
             // 
             leftToolStripMenuItem.Image = Properties.Resources.MoveLeft;
             leftToolStripMenuItem.Name = "leftToolStripMenuItem";
-            leftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            leftToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             leftToolStripMenuItem.Text = "Left";
             leftToolStripMenuItem.Click += LeftClick;
             // 
@@ -185,7 +193,7 @@
             // 
             rightToolStripMenuItem.Image = Properties.Resources.MoveRight;
             rightToolStripMenuItem.Name = "rightToolStripMenuItem";
-            rightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            rightToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             rightToolStripMenuItem.Text = "Right";
             rightToolStripMenuItem.Click += RightClick;
             // 
@@ -195,7 +203,7 @@
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ButtonNew, ButtonEdit, ButtonRemove, ButtonCopy, ButtonPaste, ButtonEnabled, toolStripSeparator1, ButtonUp, ButtonDown, toolStripSeparator4, ButtonLeft, ButtonRight });
             toolStrip1.Location = new System.Drawing.Point(3, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(254, 25);
+            toolStrip1.Size = new System.Drawing.Size(285, 25);
             toolStrip1.TabIndex = 0;
             // 
             // ButtonNew
@@ -245,7 +253,7 @@
             ButtonPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             ButtonPaste.Name = "ButtonPaste";
             ButtonPaste.Size = new System.Drawing.Size(23, 22);
-            ButtonPaste.Text = "toolStripButton1";
+            ButtonPaste.Text = "Paste";
             ButtonPaste.Click += ButtonPaste_Click;
             // 
             // ButtonEnabled
@@ -307,14 +315,6 @@
             ButtonRight.Size = new System.Drawing.Size(23, 22);
             ButtonRight.Text = "Right";
             ButtonRight.Click += RightClick;
-            // 
-            // pasteToolStripMenuItem
-            // 
-            pasteToolStripMenuItem.Image = Properties.Resources.Paste;
-            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            pasteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            pasteToolStripMenuItem.Text = "Paste";
-            pasteToolStripMenuItem.Click += ButtonPaste_Click;
             // 
             // PipelineTasksControl
             // 

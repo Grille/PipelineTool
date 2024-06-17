@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,10 +42,10 @@ public class If : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         (TokenType.Flow, "If "),
-        (TokenType.Variable, Parameters["Value1"]),
+        (TokenType.Expression, Parameters["Value1"]),
         (TokenType.Text, " "),
-        (TokenType.Variable, Parameters["Operator"]),
+        (TokenType.Expression, Parameters["Operator"]),
         (TokenType.Text, " "),
-        (TokenType.Variable, Parameters["Value2"]),
+        (TokenType.Expression, Parameters["Value2"]),
     };
 }

@@ -36,6 +36,7 @@
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             upToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             downToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +56,6 @@
             ButtonRun = new System.Windows.Forms.ToolStripButton();
             ButtonStop = new System.Windows.Forms.ToolStripButton();
             refreshTimer = new System.Windows.Forms.Timer(components);
-            pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -139,6 +139,14 @@
             copyToolStripMenuItem.Text = "Copy";
             copyToolStripMenuItem.Click += CopyClick;
             // 
+            // pasteToolStripMenuItem
+            // 
+            pasteToolStripMenuItem.Image = Properties.Resources.Paste;
+            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            pasteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            pasteToolStripMenuItem.Text = "Paste";
+            pasteToolStripMenuItem.Click += ButtonPaste_Click;
+            // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
@@ -187,7 +195,7 @@
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ButtonNew, ButtonEdit, ButtonRemove, ButtonCopy, ButtonPaste, toolStripSeparator1, ButtonUp, ButtonDown, toolStripSeparator2, ButtonRun, ButtonStop });
             toolStrip1.Location = new System.Drawing.Point(3, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(231, 25);
+            toolStrip1.Size = new System.Drawing.Size(262, 25);
             toolStrip1.TabIndex = 0;
             // 
             // ButtonNew
@@ -237,7 +245,7 @@
             ButtonPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             ButtonPaste.Name = "ButtonPaste";
             ButtonPaste.Size = new System.Drawing.Size(23, 22);
-            ButtonPaste.Text = "toolStripButton1";
+            ButtonPaste.Text = "Paste";
             ButtonPaste.Click += ButtonPaste_Click;
             // 
             // toolStripSeparator1
@@ -294,14 +302,6 @@
             // refreshTimer
             // 
             refreshTimer.Tick += TimerTick;
-            // 
-            // pasteToolStripMenuItem
-            // 
-            pasteToolStripMenuItem.Image = Properties.Resources.Paste;
-            pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            pasteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            pasteToolStripMenuItem.Text = "Paste";
-            pasteToolStripMenuItem.Click += ButtonPaste_Click;
             // 
             // PipelinesControl
             // 

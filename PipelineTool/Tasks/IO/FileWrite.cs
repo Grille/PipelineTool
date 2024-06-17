@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
@@ -27,8 +28,8 @@ internal class FileWrite : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, "Write File "),
-        new(TokenType.Variable, Parameters["Path"]),
+        new(TokenType.Expression, Parameters["Path"]),
         new(TokenType.Text, " from "),
-        new(TokenType.Variable, Parameters["Value"]),
+        new(TokenType.Expression, Parameters["Value"]),
     };
 }

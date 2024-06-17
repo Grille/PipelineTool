@@ -86,4 +86,9 @@ public partial class PipelineToolForm : Form
             e.Cancel = true;
         }
     }
+
+    private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        PipelineToolControl.ShowHelp();
+    }
 }

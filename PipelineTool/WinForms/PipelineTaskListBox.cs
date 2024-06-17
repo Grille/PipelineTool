@@ -6,16 +6,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
 
 namespace Grille.PipelineTool.WinForms;
 
 public class PipelineTaskListBox : ListBox<PipelineTask>
 {
+    readonly static StringFormat StringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
+
     protected override void OnDrawItem(DrawItemEventArgs e, PipelineTask task)
     {
         if (Executer == null)
@@ -73,42 +77,56 @@ public class PipelineTaskListBox : ListBox<PipelineTask>
         {
             var text = task.ToString();
             var pos = new PointF(position, boundsText.Y);
-            g.DrawString(text, font, Brushes.Gray, pos);
+            g.DrawString(text, font, TokenBrushes.Comment, pos);
             return;
         }
 
         var tokens = task.ToTokens();
-        var format = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
         foreach (var token in tokens)
         {
-            var text = token.Text;
-
-            if (string.IsNullOrEmpty(text))
-                continue;
-
-            var size = g.MeasureString(text, font, 0, format);
-            //var size = TextRenderer.MeasureText(text, e.Font, new Size(int.MaxValue, int.MaxValue), TextFormatFlags.NoPadding);
-
-            var drawrect = new RectangleF(position, boundsText.Y, size.Width, size.Height);
-
-            var color = token.Type switch
-            {
-                PipelineTask.TokenType.Text => Color.Black,
-                PipelineTask.TokenType.Comment => Color.Gray,
-                PipelineTask.TokenType.Variable => text[0] == '*' || text[0] == '$' ? Color.Blue : Color.FromArgb(0,100,100),
-                PipelineTask.TokenType.Flow => Color.DarkMagenta,
-                _ => Color.Red,
-            };
-
-            var brush = new SolidBrush(color);
-
-            //g.DrawRectangle(Pens.Red, drawrect.X,drawrect.Y,drawrect.Width-1,drawrect.Height-1);
-            g.DrawString(token.Text, font, brush, drawrect);
-
-            position += size.Width - margin;
+            DrawToken(e, token, ref position, boundsText.Y, margin);
         }
 
         //g.DrawString(task.ToString(), e.Font, Brushes.Magenta, boundsText);
+    }
+
+    void DrawToken(DrawItemEventArgs e, Token token, ref float position, float posY, float margin)
+    {
+        var g = e.Graphics;
+        var font = e.Font!;
+        var text = token.Text.ToString();
+
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        var size = g.MeasureString(text, font, 0, StringFormat);
+
+        var drawrect = new RectangleF(position, posY, size.Width, size.Height);
+
+        if (token.Type == TokenType.Expression)
+        {
+            var list = new List<Token>();
+            Runtime.TokenizeParameterValue(token.Text, list);
+            foreach (var subtoken in list) {
+                DrawToken(e, subtoken, ref position, posY, margin);
+            }
+            return;
+        }
+
+        var brush = token.Type switch
+        {
+            TokenType.Text => TokenBrushes.Text,
+            TokenType.Comment => TokenBrushes.Comment,
+            TokenType.Flow => TokenBrushes.Flow,
+            TokenType.ValueString => TokenBrushes.String,
+            TokenType.ValueSymbol => TokenBrushes.Symbol,
+            TokenType.ValueVariable => TokenBrushes.Variable,
+            _ => TokenBrushes.Error,
+        };
+
+        g.DrawString(text, font, brush, drawrect);
+
+        position += size.Width - margin;
     }
 
     bool HandleKeyDown(KeyEventArgs e)

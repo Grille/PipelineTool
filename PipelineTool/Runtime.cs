@@ -234,44 +234,125 @@ public class Runtime
 
     public VariableValue EvalParameterValue(string value)
     {
+        return EvalParameterValue(value.AsMemory());
+    }
+
+    public VariableValue EvalParameterValue(ReadOnlyMemory<char> value)
+    {
+        var tokens = new List<Token>();
+        TokenizeParameterValue(value, tokens);
+
+        if (tokens.Count == 1)
+        {
+            var token = tokens[0];
+
+            switch (token.Type)
+            {
+                case TokenType.ValueString:
+                {
+                    return token.Text.ToString();
+                }
+                case TokenType.ValueVariable:
+                {
+                    var key = EvalParameterValue(token.Text);
+                    return Variables[key];
+                }
+                default:
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
+
+        var sb = new StringBuilder();
+
+        foreach (var token in tokens) {
+            switch (token.Type)
+            {
+                case TokenType.ValueSymbol:
+                {
+                    continue;
+                }
+                case TokenType.ValueString:
+                {
+                    sb.Append(token.Text);
+                    continue;
+                }
+                case TokenType.ValueVariable:
+                {
+                    var key = EvalParameterValue(token.Text);
+                    sb.Append(Variables[key].Value);
+                    continue;
+                }
+                default:
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    public static void TokenizeParameterValue(ReadOnlyMemory<char> value, List<Token> tokens)
+    {
         if (value.Length == 0)
-            return value;
+            return;
 
-        if (value[0] == '*')
+        if (value.Span[0] == '*')
         {
-            var key = (string)EvalParameterValue(value.Substring(1));
-            if (!Variables.ContainsKey(key))
-            {
-                throw new InvalidOperationException($"Variable '{key}' not found.");
-            }
-            return Variables[key];
+            tokens.Add(new Token(TokenType.ValueSymbol, value.Slice(0, 1)));
+            tokens.Add(new Token(TokenType.ValueVariable, value.Slice(1, value.Length - 1)));
         }
-        if (value[0] == '$')
+        else if (value.Span[0] == '$')
         {
-            var exp = (string)EvalParameterValue(value.Substring(1));
+            tokens.Add(new Token(TokenType.ValueSymbol, value.Slice(0, 1)));
 
-            var list = new List<string>();
-            var split0 = exp.Split("{");
-            foreach (var s0 in split0)
+            var slice = value.Slice(1);
+            var span = slice.Span;
+
+            int begin = 0;
+            bool insideBlock = false;
+
+            for (int i = 0; i < span.Length; i++)
             {
-                var split1 = s0.Split("}", 2);
-                list.Add(split1[0]);
-                if (split1.Length > 1)
-                    list.Add(split1[1]);
+                if (!insideBlock && span[i] == '{')
+                {
+                    int end = i;
+                    int length = end - begin;
+                    if (length > 0)
+                    {
+                        tokens.Add(new Token(TokenType.ValueString, slice.Slice(begin, length)));
+                    }
+                    tokens.Add(new Token(TokenType.ValueSymbol, slice.Slice(i, 1)));
+                    insideBlock = true;
+                    begin = i + 1;
+                }
+                else if (insideBlock && span[i] == '}')
+                {
+                    int end = i;
+                    int length = end - begin;
+                    if (length > 0)
+                    {
+                        TokenizeParameterValue(slice.Slice(begin, length), tokens);
+                    }
+                    tokens.Add(new Token(TokenType.ValueSymbol, slice.Slice(i, 1)));
+                    insideBlock = false;
+                    begin = i + 1;
+                }
             }
-
-            string result = "";
-            for (int i = 0; i < list.Count; i++)
             {
-                if (i % 2 == 0)
-                    result += list[i];
-                else
-                    result += EvalParameterValue(list[i]);
+                int end = span.Length;
+                int length = end - begin;
+                if (length > 0)
+                {
+                    tokens.Add(new Token(TokenType.ValueString, slice.Slice(begin, length)));
+                }
             }
-
-            return result;
         }
-
-        return value;
+        else
+        {
+            tokens.Add(new Token(TokenType.ValueString, value));
+        }
     }
 }

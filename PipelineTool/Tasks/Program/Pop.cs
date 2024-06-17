@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grille.PipelineTool.IO;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -25,6 +26,6 @@ internal class Pop : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new Token(TokenType.Text, "Pop "),
-        new Token(TokenType.Variable, Parameters["Variable"]),
+        new Token(TokenType.Expression, Parameters["Variable"]),
     };
 }

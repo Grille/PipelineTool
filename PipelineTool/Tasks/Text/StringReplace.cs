@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Linq;
+using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.Text;
 
@@ -34,12 +35,12 @@ internal class StringReplace : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, "Replace "),
-        new(TokenType.Variable, Parameters["Find"]),
+        new(TokenType.Expression, Parameters["Find"]),
         new(TokenType.Text, " with "),
-        new(TokenType.Variable, Parameters["Replace"]),
+        new(TokenType.Expression, Parameters["Replace"]),
         new(TokenType.Text, " in "),
-        new(TokenType.Variable, Parameters["Value"]),
+        new(TokenType.Expression, Parameters["Value"]),
         new(TokenType.Text, " as "),
-        new(TokenType.Variable, Parameters["Variable"]),
+        new(TokenType.Expression, Parameters["Variable"]),
     };
 }
