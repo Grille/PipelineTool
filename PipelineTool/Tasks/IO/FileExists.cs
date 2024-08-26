@@ -13,7 +13,7 @@ internal class FileExists : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Path", "", "path");
+        Parameters.Def(ParameterTypes.OpenFile, "Path", "", "path");
         Parameters.Def(ParameterTypes.String, "Variable", "", "Var");
     }
 

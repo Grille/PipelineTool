@@ -13,8 +13,8 @@ internal class FileMove : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Src FileName", "", "file0.txt");
-        Parameters.Def(ParameterTypes.String, "Dst FileName", "", "file1.txt");
+        Parameters.Def(ParameterTypes.OpenFile, "Src FileName", "", "file0.txt");
+        Parameters.Def(ParameterTypes.OpenFile, "Dst FileName", "", "file1.txt");
     }
 
     protected override void OnExecute()

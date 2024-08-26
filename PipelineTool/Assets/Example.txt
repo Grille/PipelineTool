@@ -1,0 +1,27 @@
+#Version 1
+#Spaces 4
+
+[Example_Main]
+//Pipeline Tool Example 2024
+//Double click elements to inspect them.
+//
+//Print the string literal 'Hello'
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("Hello")
+//
+//Assign the value 'Value' to the variable 'Var'.
+$("Var","=","Value")
+//
+//Print value of 'Var'.
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*Var")
+//
+$("FileName","=","Texture.ptx")
+$("GamePath","=","Drive/ProgramFiles/Game")
+//
+For("1","4","Index")
+    $("FullPath","=","${*GamePath}/V{*Index}/{*FileName}")
+    Call("Example_DeleteFile")
+//
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("Done!")
+
+[Example_DeleteFile]
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$Delete File: {*FullPath}")

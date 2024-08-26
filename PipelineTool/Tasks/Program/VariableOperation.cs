@@ -16,7 +16,7 @@ internal class VariableOperation : PipelineTask
     {
         Parameters.Def(ParameterTypes.String, "Name", "", "Var");
         Parameters.Def(ParameterTypes.Enum, "Operator", "", "=", new string[] { "=", "+" });
-        Parameters.Def(ParameterTypes.String, "Value", "", "Value");
+        Parameters.Def(ParameterTypes.Generic, "Value", "", "Value");
     }
 
     protected override void OnExecute()
@@ -48,12 +48,25 @@ internal class VariableOperation : PipelineTask
         }
     }
 
+    private ReadOnlyMemory<char> GetValueText()
+    {
+        var raw = Parameters["Value"];
+        for (int i = 0; i < raw.Length; i++)
+        {
+            if (raw[i] == '\n' ||  raw[i] == '\r')
+            {
+                return raw.AsMemory(0, i);
+            }
+        }
+        return raw.AsMemory();
+    }
+
     public override Token[] ToTokens() => new Token[]
     {
         new Token(TokenType.Expression, Parameters["Name"]),
         new Token(TokenType.Text, " "),
         new Token(TokenType.Expression, Parameters["Operator"]),
         new Token(TokenType.Text, " "),
-        new Token(TokenType.Expression, Parameters["Value"]),
+        new Token(TokenType.Expression, GetValueText()),
     };
 }

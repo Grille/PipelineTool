@@ -13,7 +13,7 @@ internal class FileRead : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Path", "", "SrcFile");
+        Parameters.Def(ParameterTypes.OpenFile, "Path", "", "SrcFile");
         Parameters.Def(ParameterTypes.String, "Variable", "", "Var");
     }
 

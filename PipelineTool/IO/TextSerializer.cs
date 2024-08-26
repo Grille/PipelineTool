@@ -3,6 +3,7 @@ using Grille.PipelineTool.Tasks.Program;
 using Grille.PipelineTool.Tasks.Text;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -13,77 +14,9 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.IO;
 
-public static class TextSerializer
+public static partial class TextSerializer
 {
-    private static class TypeRegistry
-    {
-        readonly static Dictionary<Type, string> _byType;
-        readonly static Dictionary<string, Type> _byKey;
-
-        static TypeRegistry()
-        {
-            _byType = new();
-            _byKey = new();
-
-            Register<Pop>("Pop");
-            Register<Push>("Push");
-            Register<ExecutePipeline>("Call");
-            Register<ForEach>("ForEach");
-            Register<For>("For");
-            Register<If>("If");
-            Register<Input>("In");
-            Register<Return>("Return");
-            Register<VariableOperation>("$");
-
-            Register<StringContains>("String.Contains");
-            Register<StringReplace>("String.Replace");
-        }
-
-        public static void Register<T>(string key) where T : PipelineTask
-        {
-            var type = typeof(T);
-            _byKey.Add(key, type);
-            _byType.Add(type, key);
-        }
-
-        internal static PipelineTask Get(string key, int argCount)
-        {
-            Type? type;
-            if (!_byKey.TryGetValue(key, out type))
-            {
-                var split = key.Split(':', 2);
-                if (split.Length == 2)
-                {
-                    type = Type.GetType($"{split[1]}, {split[0]}");
-                }
-                else
-                {
-                    type = Type.GetType(key);
-                }
-            }
-
-            if (type == null)
-                return new InvalidTypeTask(key, argCount);
-
-            return (PipelineTask?)Activator.CreateInstance(type) ?? throw new InvalidOperationException();
-        }
-
-        public static string Get(PipelineTask task)
-        {
-            if (task is InvalidTypeTask itask)
-                return itask.AssemblyQualifiedName;
-
-            var type = task.GetType();
-            if (_byType.TryGetValue(type, out var key))
-                return key;
-            
-            return $"{type.Assembly.GetName().Name}:{type.FullName}";
-        }
-    }
-
     const int Spaces = 4;
-
-    public static void Register<T>(string key) where T : PipelineTask => Register<T>(key);
 
     private static StreamWriter CreateWriter(Stream stream)
     {
@@ -172,38 +105,18 @@ public static class TextSerializer
         writer.WriteLine();
     }
 
-    private static void Write(TextWriter tw, string text) {
-        tw.Write('"');
-        tw.Write(text.Replace("\"", "\\\""));
-        tw.Write('"');
-    }
-
-    public class Result
+    private static void Write(TextWriter tw, string text)
     {
-        private List<PipelineTask> _tasks;
+        var sb = new StringBuilder(text);
 
-        public List<PipelineTask> Headless { get; }
+        sb.Replace("\\", "\\\\");
+        sb.Replace("\"", "\\\"");
+        sb.Replace("\n", "\\n");
+        sb.Replace("\r", "\\r");
 
-        public Dictionary<string, List<PipelineTask>> Sections { get; }
-
-        public Result()
-        {
-            _tasks = new List<PipelineTask>();
-            Sections = new Dictionary<string, List<PipelineTask>>();
-            Headless = _tasks;
-        }
-
-        [MemberNotNull(nameof(_tasks))]
-        public void Section(string name)
-        {
-            _tasks = new List<PipelineTask>();
-            Sections.Add(name, _tasks);
-        }
-
-        public void Add(PipelineTask task)
-        {
-            _tasks.Add(task);
-        }
+        tw.Write('"');
+        tw.Write(sb);
+        tw.Write('"');
     }
 
     public static void Deserialize(Stream stream, PipelineList pipelines)
@@ -304,7 +217,14 @@ public static class TextSerializer
         string[] result = new string[matches.Count];
         for (int i = 0; i < matches.Count; i++)
         {
-            result[i] = matches[i].Groups[1].Value.Replace("\\\"", "\"");
+            var sb = new StringBuilder(matches[i].Groups[1].Value);
+
+            sb.Replace("\\\\", "\\");
+            sb.Replace("\\\"", "\"");
+            sb.Replace("\\n", "\n");
+            sb.Replace("\\r", "\r");
+
+            result[i] = sb.ToString();
         }
 
         return result;

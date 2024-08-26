@@ -13,8 +13,8 @@ internal class FileCopy : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Src", "", "SrcDir");
-        Parameters.Def(ParameterTypes.String, "Dst", "", "DstFile");
+        Parameters.Def(ParameterTypes.OpenFile, "Src", "", "SrcFile");
+        Parameters.Def(ParameterTypes.OpenFile, "Dst", "", "DstFile");
     }
 
     protected override void OnExecute()

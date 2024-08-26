@@ -13,7 +13,7 @@ internal class DirectoryClear : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Dir", "", "Dir");
+        Parameters.Def(ParameterTypes.Folder, "Dir", "", "Dir");
     }
 
     protected override void OnExecute()
@@ -29,7 +29,7 @@ internal class DirectoryClear : PipelineTask
         foreach (var dir in Directory.GetDirectories(path))
             Directory.Delete(dir, true);
 
-        Runtime.Log($"Clear dir {path}");
+        Runtime.Logger.Info($"Clear Directory {path}");
     }
 
     public override Token[] ToTokens() => new Token[]

@@ -1,9 +1,15 @@
-﻿using System;
+﻿using Grille.PipelineTool.WinForms;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Grille.PipelineTool;
 
@@ -16,6 +22,10 @@ public static class ParameterFactory
         ParameterTypes.Single => new ParameterSingle(name, desc, value),
         ParameterTypes.Boolean => new ParameterBoolean(name, desc, value),
         ParameterTypes.String => new ParameterString(name, desc, value),
+        ParameterTypes.OpenFile => new ParameterPath(name, desc, value, PathBoxMode.OpenFile),
+        ParameterTypes.Folder => new ParameterPath(name, desc, value, PathBoxMode.Folder),
+        ParameterTypes.Generic => new ParameterPath(name, desc, value, PathBoxMode.Generic),
+        ParameterTypes.Color => new ParameterPath(name, desc, value, PathBoxMode.Color),
         _ => throw new NotImplementedException()
     };
 }
@@ -96,6 +106,30 @@ public class ParameterBoolean : ParameterEnum
     }
 }
 
+public class ParameterPath : Parameter
+{
+    private PathBoxMode _mode;
+    public ParameterPath(string name, string desc, string value, PathBoxMode mode) : base(name, desc, value)
+    {
+        _mode = mode;
+    }
+
+    public override bool ValidateValue() => _mode switch
+    {
+        PathBoxMode.Folder => Directory.Exists(Value),
+        PathBoxMode.OpenFile => File.Exists(Value),
+        PathBoxMode.Color => int.TryParse(Value, NumberStyles.HexNumber, null, out _),
+        _ => true,
+    };
+
+    public override Control CreateControl()
+    {
+        var obj = new PathBox(_mode);
+        obj.Text = Value;
+        return obj;
+    }
+}
+
 public class ParameterEnum : Parameter
 {
     public readonly string[] Args;
@@ -132,8 +166,12 @@ public class ParameterEnum : Parameter
 public enum ParameterTypes
 {
     String,
+    OpenFile,
+    Folder,
     Integer,
     Single,
     Boolean,
     Enum,
+    Generic,
+    Color,
 }

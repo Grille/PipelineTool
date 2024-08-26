@@ -13,8 +13,8 @@ internal class DirectoryCopy : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Src", "", "SrcDir");
-        Parameters.Def(ParameterTypes.String, "Dst", "", "DstFile");
+        Parameters.Def(ParameterTypes.Folder, "Src", "", "SrcDir");
+        Parameters.Def(ParameterTypes.Folder, "Dst", "", "DstDir");
     }
 
     protected override void OnExecute()
@@ -35,7 +35,7 @@ internal class DirectoryCopy : PipelineTask
             File.Copy(newPath, newPath.Replace(srcPath, dstPath), true);
         }
 
-        Runtime.Log($"Copy dir {srcPath} to {dstPath}");
+        Runtime.Logger.Info($"Copy dir {srcPath} to {dstPath}");
     }
 
     public override Token[] ToTokens() => new Token[]

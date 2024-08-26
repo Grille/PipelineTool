@@ -9,8 +9,6 @@ using System.Xml.Linq;
 
 namespace Grille.PipelineTool;
 
-using Variables = Dictionary<string, VariableValue>;
-
 public class Runtime
 {
     //public bool Running { get; private set; }
@@ -57,6 +55,7 @@ public class Runtime
 
     public event EventHandler? PositionChanged;
 
+    public bool InherentParentScopeVariablesEnabled { get; set; } = true;
 
     public string StackTrace
     {
@@ -114,6 +113,8 @@ public class Runtime
         if (_cancel)
             return;
 
+        Logger.System($"Call {pipeline.Name}");
+
         CallStack.Push(pipeline);
         InvPosChanged();
         IncVariableScope();
@@ -127,6 +128,8 @@ public class Runtime
         DecVariableScope();
         CallStack.Pop();
         InvPosChanged();
+
+        Logger.System($"Return");
     }
 
     public void ExecuteTasks(Pipeline pipeline)
@@ -148,26 +151,13 @@ public class Runtime
 
     public void IncVariableScope()
     {
-        var variables = new Variables();
-        if (ScopeStack.Count > 0)
-        {
-            var curent = ScopeStack.Peek();
-            foreach ( var pair in curent)
-            {
-                variables[pair.Key] = pair.Value;
-            }
-        }
+        var variables = ScopeStack.Count > 0 && InherentParentScopeVariablesEnabled ? new Variables(Variables) : new Variables();
         ScopeStack.Push(variables);
     }
 
     public void DecVariableScope()
     {
         ScopeStack.Pop();
-    }
-
-    public void Log(string value)
-    {
-        Logger.Info(value);
     }
 
     public void Return()
@@ -292,6 +282,13 @@ public class Runtime
         }
 
         return sb.ToString();
+    }
+
+    public static IReadOnlyList<Token> TokenizeParameterValue(ReadOnlyMemory<char> value)
+    {
+        var tokens = new List<Token>();
+        TokenizeParameterValue(value, tokens);
+        return tokens;
     }
 
     public static void TokenizeParameterValue(ReadOnlyMemory<char> value, List<Token> tokens)

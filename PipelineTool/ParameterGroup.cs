@@ -85,6 +85,7 @@ public class ParameterGroup : IEnumerable<Parameter>
 
     public int Count => keys.Count;
 
+    public Parameter GetParameter(int key) => values[key];
 
     public IEnumerator<Parameter> GetEnumerator() => values.GetEnumerator();
 

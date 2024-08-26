@@ -1,34 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="WinForms\EditTaksForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="WinForms\ListBox.cs">
+    <Compile Update="WinForms\Controls\ConsoleListBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="WinForms\PipelineListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="WinForms\PipelinesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="WinForms\PipelineTaskListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="WinForms\PipelineTasksControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="WinForms\PipelineToolControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="WinForms\PipelineToolForm.cs">
+    <Compile Update="WinForms\Forms\EditTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="WinForms\TextBoxDialog.cs">
+    <Compile Update="WinForms\Controls\ListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\DialogButtonPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PathBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PipelineListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PipelinesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PipelineTaskListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PipelineTasksControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PipelineToolControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\Forms\PipelineToolForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="WinForms\Tree\TaskTypeTreeView.cs">
+    <Compile Update="WinForms\Forms\RichTextForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WinForms\Forms\EditValueDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WinForms\Forms\TextBoxDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\TaskTypeTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

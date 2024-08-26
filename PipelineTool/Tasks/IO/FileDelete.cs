@@ -13,7 +13,7 @@ internal class FileDelete : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Path", "", "Dir");
+        Parameters.Def(ParameterTypes.OpenFile, "Path", "", "File");
     }
 
     protected override void OnExecute()
@@ -22,7 +22,7 @@ internal class FileDelete : PipelineTask
 
         File.Delete(path);
 
-        Runtime.Log($"Remove dir {path}");
+        Runtime.Logger.Info($"Remove dir {path}");
     }
 
     public override Token[] ToTokens() => new Token[]

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program;
 
-[PipelineTask("Program/Input")]
+//[PipelineTask("Program/Input")]
 internal class Input : PipelineTask
 {
     protected override void OnInit()
