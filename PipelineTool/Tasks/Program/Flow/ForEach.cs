@@ -22,7 +22,7 @@ internal class ForEach : PipelineTask
     {
         Parameters.Add(
             new ParameterEnum("Mode", "", "List", new string[] { "List", "Directories", "Files" }),
-            new ParameterString("Collection", "", "1"),
+            new ParameterPath("Collection", "", "1", WinForms.PathBoxMode.Generic),
             new ParameterString("Variable", "", "i")
         );
     }

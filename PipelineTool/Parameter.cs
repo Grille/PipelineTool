@@ -23,6 +23,7 @@ public static class ParameterFactory
         ParameterTypes.Boolean => new ParameterBoolean(name, desc, value),
         ParameterTypes.String => new ParameterString(name, desc, value),
         ParameterTypes.OpenFile => new ParameterPath(name, desc, value, PathBoxMode.OpenFile),
+        ParameterTypes.SaveFile => new ParameterPath(name, desc, value, PathBoxMode.SaveFile),
         ParameterTypes.Folder => new ParameterPath(name, desc, value, PathBoxMode.Folder),
         ParameterTypes.Generic => new ParameterPath(name, desc, value, PathBoxMode.Generic),
         ParameterTypes.Color => new ParameterPath(name, desc, value, PathBoxMode.Color),
@@ -168,6 +169,7 @@ public enum ParameterTypes
 {
     String,
     OpenFile,
+    SaveFile,
     Folder,
     Integer,
     Single,
