@@ -8,30 +8,26 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Stack;
 
-//[PipelineTask("Program/Stack/Pull")]
-internal class Pull : PipelineTask
+[PipelineTask("Program/Stack/Exch")]
+internal class Exch : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Variable", "Variable to pull from enclosing scope.", "Var");
-        Parameters.Def(ParameterTypes.String, "New Name", "Name to use in local scope, leave empty to use original name.", "");
+        Parameters.Def(ParameterTypes.Variable, "Variable", "", "Var");
     }
 
     protected override void OnExecute()
     {
         var name = EvalParameter("Variable");
 
-        if (!string.IsNullOrWhiteSpace(Parameters["New Name"]))
-        {
-            var newname = EvalParameter("New Name");
-        }
-
+        var value = Runtime.Variables[name];
         Runtime.Variables[name] = Runtime.ValueStack.Pop();
+        Runtime.ValueStack.Push(value);
     }
 
     public override Token[] ToTokens() => new Token[]
     {
-        new Token(TokenType.Flow, "Pull "),
+        new Token(TokenType.Flow, "Exch "),
         new Token(TokenType.Expression, Parameters["Variable"]),
     };
 }

@@ -14,7 +14,7 @@ internal class FileExists : PipelineTask
     protected override void OnInit()
     {
         Parameters.Def(ParameterTypes.OpenFile, "Path", "", "path");
-        Parameters.Def(ParameterTypes.String, "Variable", "", "Var");
+        Parameters.Def(ParameterTypes.Variable, "Variable", "", "Var");
     }
 
     protected override void OnExecute()

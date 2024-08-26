@@ -40,9 +40,6 @@
     <Compile Update="WinForms\Forms\EditValueDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="WinForms\Forms\TextBoxDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="WinForms\Controls\TaskTypeTreeView.cs">
       <SubType>Component</SubType>
     </Compile>

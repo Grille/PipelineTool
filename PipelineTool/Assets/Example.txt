@@ -1,7 +1,7 @@
 #Version 1
 #Spaces 4
 
-[Example_Main]
+[Example01_Main]
 //Pipeline Tool Example 2024
 //Double click elements to inspect them.
 //
@@ -23,5 +23,18 @@ For("1","4","Index")
 //
 PipelineTool:Grille.PipelineTool.Tasks.Console.Print("Done!")
 
-[Example_DeleteFile]
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$Delete File: {*FullPath}")
+[Example01_DeleteFile]
+In("Index","If Empty")
+In("FullPath","If Empty")
+//
+If("*Index","<","4")
+    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("${*Index}) Delete File: {*FullPath}")
+    Return()
+//
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("${*Index}) Ignore")
+
+[Example02_UserInput]
+In("Name","If Empty")
+//
+PipelineTool:Grille.PipelineTool.Tasks.Program.Windows.ShowMsgBox("Name","$Hello {*Name}","Result","Ok","Warn")
+

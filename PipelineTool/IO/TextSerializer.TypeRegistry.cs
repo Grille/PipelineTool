@@ -24,7 +24,7 @@ public static partial class TextSerializer
 
             Register<Pop>("Pop");
             Register<Push>("Push");
-            Register<Pull>("Pull");
+            Register<Exch>("Exch");
             Register<ExecutePipeline>("Call");
             Register<ForEach>("ForEach");
             Register<For>("For");

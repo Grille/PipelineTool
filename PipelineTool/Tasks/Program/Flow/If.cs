@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
 [PipelineTask("Program/Flow/If")]
-public class If : PipelineTask
+internal class If : PipelineTask
 {
     protected override void OnInit()
     {
@@ -27,8 +27,8 @@ public class If : PipelineTask
         {
             "==" => value1 == value2,
             "!=" => value1 != value2,
-            ">" => double.Parse(value1) > double.Parse(value2),
-            "<" => double.Parse(value1) < double.Parse(value2),
+            ">" => decimal.Parse(value1) > decimal.Parse(value2),
+            "<" => decimal.Parse(value1) < decimal.Parse(value2),
             _ => throw new ArgumentOutOfRangeException(),
         };
 

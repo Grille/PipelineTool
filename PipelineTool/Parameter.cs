@@ -26,6 +26,7 @@ public static class ParameterFactory
         ParameterTypes.Folder => new ParameterPath(name, desc, value, PathBoxMode.Folder),
         ParameterTypes.Generic => new ParameterPath(name, desc, value, PathBoxMode.Generic),
         ParameterTypes.Color => new ParameterPath(name, desc, value, PathBoxMode.Color),
+        ParameterTypes.Variable => new ParameterString(name, desc, value),
         _ => throw new NotImplementedException()
     };
 }
@@ -174,4 +175,5 @@ public enum ParameterTypes
     Enum,
     Generic,
     Color,
+    Variable,
 }

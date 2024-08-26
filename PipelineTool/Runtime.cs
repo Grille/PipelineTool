@@ -1,18 +1,18 @@
 ﻿using Grille.PipelineTool.IO;
+using Grille.PipelineTool.WinForms;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace Grille.PipelineTool;
 
 public class Runtime
 {
-    //public bool Running { get; private set; }
-
     private bool _cancel;
 
     private class ReturnException : Exception { }
@@ -51,6 +51,8 @@ public class Runtime
 
     public ILogger Logger { get; set; }
 
+    public IUserInterface UserInterface { get; set; }
+
     public Variables Variables => ScopeStack.Peek();
 
     public event EventHandler? PositionChanged;
@@ -78,6 +80,7 @@ public class Runtime
         ScopeStack = new();
         ValueStack = new();
         Logger = ConsoleLogger.Instance;
+        UserInterface = new GuiInterface();
     }
 
     private void InvPosChanged()

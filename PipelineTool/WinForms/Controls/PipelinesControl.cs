@@ -39,7 +39,7 @@ namespace Grille.PipelineTool.WinForms
 
         public PipelineTasksControl? TasksControl { get; set; }
 
-        public TextBoxDialog TextBoxDialog { get; }
+        public EditValueDialog EditValueDialog { get; }
 
         public ILogger Logger { get => Executer.Runtime.Logger; set => Executer.Runtime.Logger = value; }
 
@@ -51,7 +51,7 @@ namespace Grille.PipelineTool.WinForms
             Pipelines = new PipelineList();
             ListBox.BoundItems = Pipelines;
 
-            TextBoxDialog = new TextBoxDialog();
+            EditValueDialog = new EditValueDialog();
 
             Executer.Runtime.PositionChanged += Executer_PositionChanged;
 
@@ -132,7 +132,7 @@ namespace Grille.PipelineTool.WinForms
             ArgumentNullException.ThrowIfNull(TasksControl);
             ArgumentNullException.ThrowIfNull(SelectedItem);
 
-            Executer.Execute(SelectedItem);
+            Executer.Execute(SelectedItem, ParentForm);
             UpdateEnabledActions();
             TasksControl.SetEnabledActions();
         }
@@ -146,10 +146,13 @@ namespace Grille.PipelineTool.WinForms
         {
             ArgumentNullException.ThrowIfNull(Pipelines);
 
-            var result = TextBoxDialog.ShowDialog(ParentForm, "New Pipeline", "Pipeline");
+            EditValueDialog.Text = "New Pipeline";
+            EditValueDialog.TextBox.Text = "Pipeline";
+
+            var result = EditValueDialog.ShowDialog(ParentForm);
             if (result == DialogResult.OK)
             {
-                string newname = TextBoxDialog.TextResult.Trim();
+                string newname = EditValueDialog.TextBox.Text.Trim();
                 string uname = Pipelines.GetUniqueName(newname);
                 var pipeline = Pipelines.CreateUnbound(uname);
                 Pipelines!.InsertAfter(SelectedItem, pipeline);
@@ -170,10 +173,14 @@ namespace Grille.PipelineTool.WinForms
             ArgumentNullException.ThrowIfNull(SelectedItem);
 
             string name = SelectedItem.Name;
-            var result = TextBoxDialog.ShowDialog(ParentForm, "New Pipeline", name);
+
+            EditValueDialog.Text = "Edit Pipeline";
+            EditValueDialog.TextBox.Text = name;
+
+            var result = EditValueDialog.ShowDialog(ParentForm);
             if (result == DialogResult.OK)
             {
-                string newname = TextBoxDialog.TextResult.Trim();
+                string newname = EditValueDialog.TextBox.Text.Trim();
                 if (newname == name)
                     return;
 

@@ -18,6 +18,14 @@ public partial class EditValueDialog : Form
         InitializeComponent();
     }
 
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        TextBox.Focus();
+        TextBox.SelectAll();
+    }
+
     private void okCancelPanel1_Button1Click(object sender, EventArgs e)
     {
         DialogResult = DialogResult.Cancel;

@@ -14,7 +14,7 @@ internal class VariableOperation : PipelineTask
 
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Name", "", "Var");
+        Parameters.Def(ParameterTypes.Variable, "Name", "", "Var");
         Parameters.Def(ParameterTypes.Enum, "Operator", "", "=", new string[] { "=", "+" });
         Parameters.Def(ParameterTypes.Generic, "Value", "", "Value");
     }

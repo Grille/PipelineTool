@@ -14,7 +14,7 @@ internal class FileRead : PipelineTask
     protected override void OnInit()
     {
         Parameters.Def(ParameterTypes.OpenFile, "Path", "", "SrcFile");
-        Parameters.Def(ParameterTypes.String, "Variable", "", "Var");
+        Parameters.Def(ParameterTypes.Variable, "Variable", "", "Var");
     }
 
     protected override void OnExecute()

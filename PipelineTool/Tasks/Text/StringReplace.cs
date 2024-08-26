@@ -14,7 +14,7 @@ internal class StringReplace : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Variable", "", "Var");
+        Parameters.Def(ParameterTypes.Variable, "Result Variable", "", "Var");
         Parameters.Def(ParameterTypes.String, "Value", "", "value");
         Parameters.Def(ParameterTypes.String, "Find", "", "find");
         Parameters.Def(ParameterTypes.String, "Replace", "", "replace");
@@ -22,7 +22,7 @@ internal class StringReplace : PipelineTask
 
     protected override void OnExecute()
     {
-        string var = EvalParameter("Variable");
+        string var = EvalParameter("Result Variable");
         string value = EvalParameter("Value");
         string find = EvalParameter("Find");
         string replace = EvalParameter("Replace");

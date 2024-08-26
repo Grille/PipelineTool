@@ -26,7 +26,7 @@ public class AsyncPipelineExecuter
         _task = Task.CompletedTask;
     }
 
-    public void Execute(Pipeline pipeline)
+    public void Execute(Pipeline pipeline, Form form)
     {
         if (Running)
         {
@@ -35,6 +35,7 @@ public class AsyncPipelineExecuter
 
         Running = true;
         Runtime.Clear();
+        Runtime.UserInterface.ParentForm = form;
 
         _task = Task.Run(() =>
         {
@@ -44,17 +45,17 @@ public class AsyncPipelineExecuter
             }
             catch (Exception ex)
             {
-                Running = false;
-
                 string stackTrace = Runtime.StackTrace;
                 string message = $"{ex.Message}\n\n{stackTrace}";
                 Runtime.Logger.Error($"<{ex.GetType().Name}> {message}");
                 MessageBox.Show(message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                Running = false;
 
-            Running = false;
-
-            ExecutionDone?.Invoke(this, EventArgs.Empty);
+                ExecutionDone?.Invoke(this, EventArgs.Empty);
+            }
         });
 
     }

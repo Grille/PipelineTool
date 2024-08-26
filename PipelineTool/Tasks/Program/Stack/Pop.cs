@@ -13,7 +13,7 @@ internal class Pop : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Variable", "Variable to write the top value of the global stack into.", "Var");
+        Parameters.Def(ParameterTypes.Variable, "Variable", "Variable to write the top value of the global stack into.", "Var");
     }
 
     protected override void OnExecute()

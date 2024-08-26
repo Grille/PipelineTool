@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace Grille.PipelineTool.Tasks.Console;
 
 [PipelineTask("Console/Print")]
-public class Print : PipelineTask
+internal class Print : PipelineTask
 {
     protected override void OnInit()
     {
