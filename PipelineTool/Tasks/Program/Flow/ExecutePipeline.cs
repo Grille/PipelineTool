@@ -12,7 +12,7 @@ internal class ExecutePipeline : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Name", "", "Pipeline");
+        Parameters.Def(ParameterTypes.Variable, "Name", "", "Pipeline");
     }
 
     protected override void OnExecute()

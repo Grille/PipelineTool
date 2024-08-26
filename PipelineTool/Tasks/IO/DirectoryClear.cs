@@ -13,7 +13,7 @@ internal class DirectoryClear : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.Folder, "Dir", "", "Dir");
+        Parameters.Def(ParameterTypes.Directory, "Dir", "", "Dir");
     }
 
     protected override void OnExecute()

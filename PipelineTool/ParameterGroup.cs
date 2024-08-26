@@ -15,7 +15,7 @@ public class ParameterGroup : IEnumerable<Parameter>
     private List<string> keys = new();
     private List<Parameter> values = new();
 
-    public void Def<T>(string name, string desc = "", string value = "", object? args = null) where T : Parameter
+    private void Def<T>(string name, string desc = "", string value = "", object? args = null) where T : Parameter
     {
 
     }
@@ -26,6 +26,15 @@ public class ParameterGroup : IEnumerable<Parameter>
             throw new InvalidOperationException();
 
         Add(ParameterFactory.Create(type, name, desc, value, args));
+    }
+
+    public void DefResult(string name = "Result", string? desc = null)
+    {
+        if (desc == null)
+        {
+            desc = $"Variable to write result into.";
+        }
+        Def(ParameterTypes.Variable, name, desc, "Result");
     }
 
     public void Add(Parameter parameter)

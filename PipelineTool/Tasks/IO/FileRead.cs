@@ -14,13 +14,13 @@ internal class FileRead : PipelineTask
     protected override void OnInit()
     {
         Parameters.Def(ParameterTypes.OpenFile, "Path", "", "SrcFile");
-        Parameters.Def(ParameterTypes.Variable, "Variable", "", "Var");
+        Parameters.DefResult("Result");
     }
 
     protected override void OnExecute()
     {
         var src = EvalParameter("Path");
-        var var = EvalParameter("Variable");
+        var var = EvalParameter("Result");
 
         Runtime.Variables[var] = File.ReadAllText(src);
     }
@@ -30,6 +30,6 @@ internal class FileRead : PipelineTask
         new(TokenType.Text, "Read File "),
         new(TokenType.Expression, Parameters["Path"]),
         new(TokenType.Text, " as "),
-        new(TokenType.Expression, Parameters["Variable"]),
+        new(TokenType.Expression, Parameters["Result"]),
     };
 }

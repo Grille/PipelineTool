@@ -14,14 +14,14 @@ internal class StringContains : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.Variable, "Result Variable", "", "Var");
         Parameters.Def(ParameterTypes.String, "Value", "", "value");
         Parameters.Def(ParameterTypes.String, "Find", "", "find");
+        Parameters.DefResult("Result");
     }
 
     protected override void OnExecute()
     {
-        string var = EvalParameter("Result Variable");
+        string var = EvalParameter("Result");
         string value = EvalParameter("Value");
         string find = EvalParameter("Find");
 
@@ -35,6 +35,6 @@ internal class StringContains : PipelineTask
         new(TokenType.Text, " in "),
         new(TokenType.Expression, Parameters["Value"]),
         new(TokenType.Text, " as "),
-        new(TokenType.Expression, Parameters["Variable"]),
+        new(TokenType.Expression, Parameters["Result"]),
     };
 }

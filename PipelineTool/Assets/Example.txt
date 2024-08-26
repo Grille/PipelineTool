@@ -36,5 +36,8 @@ PipelineTool:Grille.PipelineTool.Tasks.Console.Print("${*Index}) Ignore")
 [Example02_UserInput]
 In("Name","If Empty")
 //
-PipelineTool:Grille.PipelineTool.Tasks.Program.Windows.ShowMsgBox("Name","$Hello {*Name}","Result","Ok","Warn")
+$("Message","=","$Hello {*Name}")
+//
+PipelineTool:Grille.PipelineTool.Tasks.Program.Windows.ShowMsgBox("Name","*Message","Ok/Cancel","Warn","Result")
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*Result")
 

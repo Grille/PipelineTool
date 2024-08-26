@@ -24,10 +24,10 @@ public static class ParameterFactory
         ParameterTypes.String => new ParameterString(name, desc, value),
         ParameterTypes.OpenFile => new ParameterPath(name, desc, value, PathBoxMode.OpenFile),
         ParameterTypes.SaveFile => new ParameterPath(name, desc, value, PathBoxMode.SaveFile),
-        ParameterTypes.Folder => new ParameterPath(name, desc, value, PathBoxMode.Folder),
+        ParameterTypes.Directory => new ParameterPath(name, desc, value, PathBoxMode.Directory),
         ParameterTypes.Generic => new ParameterPath(name, desc, value, PathBoxMode.Generic),
         ParameterTypes.Color => new ParameterPath(name, desc, value, PathBoxMode.Color),
-        ParameterTypes.Variable => new ParameterString(name, desc, value),
+        ParameterTypes.Variable => new ParameterVariable(name, desc, value),
         _ => throw new NotImplementedException()
     };
 }
@@ -101,6 +101,27 @@ public class ParameterSingle : Parameter
     }
 }
 
+public class ParameterVariable : Parameter
+{
+    public ParameterVariable(string name, string desc, string value) : base(name, desc, value) { }
+
+    public override bool ValidateValue()
+    {
+        if (string.IsNullOrEmpty(Value))
+        {
+            return false;
+        }
+        var trim = Value.Trim();
+        var char0 = Value[0];
+        return Value.Length == trim.Length && Char(char0);
+    }
+
+    static bool Char(char char0)
+    {
+        return (char0 >= 'A' && char0 <= 'Z') || (char0 >= 'a' && char0 <= 'z') || (char0 >= '0' && char0 <= '9') || char0 == '_';
+    }
+}
+
 public class ParameterBoolean : ParameterEnum
 {
     public ParameterBoolean(string name, string desc, string value) : base(name, desc, value, new string[] { "false", "true"})
@@ -118,7 +139,7 @@ public class ParameterPath : Parameter
 
     public override bool ValidateValue() => _mode switch
     {
-        PathBoxMode.Folder => Directory.Exists(Value),
+        PathBoxMode.Directory => Directory.Exists(Value),
         PathBoxMode.OpenFile => File.Exists(Value),
         PathBoxMode.Color => int.TryParse(Value, NumberStyles.HexNumber, null, out _),
         _ => true,
@@ -170,7 +191,7 @@ public enum ParameterTypes
     String,
     OpenFile,
     SaveFile,
-    Folder,
+    Directory,
     Integer,
     Single,
     Boolean,

@@ -13,7 +13,7 @@ internal class DirectoryDelete : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.Folder, "Path", "", "Dir");
+        Parameters.Def(ParameterTypes.Directory, "Path", "", "Dir");
     }
 
     protected override void OnExecute()

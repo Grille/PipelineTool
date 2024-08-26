@@ -15,9 +15,9 @@ internal class ShowMsgBox : PipelineTask
     {
         Parameters.Def(ParameterTypes.String, "Title", "", "Title");
         Parameters.Def(ParameterTypes.String, "Text", "", "Message");
-        Parameters.Def(ParameterTypes.String, "Variable", "", "Result");
         Parameters.Def(ParameterTypes.Enum, "Mode", "", "Ok", new string[] { "Ok", "Ok/Cancel" });
         Parameters.Def(ParameterTypes.Enum, "Icon", "", "None", new string[] { "None", "Info", "Warn", "Error" });
+        Parameters.DefResult("Result");
     }
 
     protected override void OnExecute()
@@ -26,7 +26,7 @@ internal class ShowMsgBox : PipelineTask
         var text = EvalParameter("Text");
         var mode = EvalParameter("Mode");
         var icon = EvalParameter("Icon");
-        var variable = EvalParameter("Variable");
+        var variable = EvalParameter("Result");
 
         var ico = ((string)icon).ToLower() switch
         {
@@ -66,6 +66,7 @@ internal class ShowMsgBox : PipelineTask
         new Token(TokenType.Expression, Parameters["Title"]),
         new Token(TokenType.Text, ","),
         new Token(TokenType.Expression, Parameters["Text"]),
-        new Token(TokenType.Text, ")"),
+        new Token(TokenType.Text, ") as "),
+        new Token(TokenType.Expression, Parameters["Result"]),
     };
 }

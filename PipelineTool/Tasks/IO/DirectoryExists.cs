@@ -8,12 +8,12 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/File.Exists")]
-internal class FileExists : PipelineTask
+[PipelineTask("IO/Directory.Exists")]
+internal class DirectoryExists : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.OpenFile, "Path", "", "path");
+        Parameters.Def(ParameterTypes.Directory, "Path", "", "path");
         Parameters.DefResult("Result");
     }
 
@@ -22,7 +22,7 @@ internal class FileExists : PipelineTask
         string var = EvalParameter("Variable");
         string path = EvalParameter("Result");
 
-        Runtime.Variables[var] = new VariableValue(File.Exists(path));
+        Runtime.Variables[var] = new VariableValue(Directory.Exists(path));
     }
 
     public override Token[] ToTokens() => new Token[]

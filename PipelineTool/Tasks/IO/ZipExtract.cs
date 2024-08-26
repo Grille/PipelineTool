@@ -14,7 +14,7 @@ internal class ZipExtract : PipelineTask
     protected override void OnInit()
     {
         Parameters.Def(ParameterTypes.OpenFile, "Src File", "", "data.zip");
-        Parameters.Def(ParameterTypes.Folder, "Dst Directory", "", "data");
+        Parameters.Def(ParameterTypes.Directory, "Dst Directory", "", "data");
     }
 
     protected override void OnExecute()

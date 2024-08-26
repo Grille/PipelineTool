@@ -13,7 +13,7 @@ internal class ZipPack : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.Folder, "Src Directory", "", "data");
+        Parameters.Def(ParameterTypes.Directory, "Src Directory", "", "data");
         Parameters.Def(ParameterTypes.SaveFile, "Dst File", "", "data.zip");
     }
 

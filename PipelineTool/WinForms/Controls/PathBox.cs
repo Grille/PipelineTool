@@ -37,7 +37,7 @@ public partial class PathBox : UserControl
 
     private void Button_Click(object sender, EventArgs e)
     {
-        if (Mode == PathBoxMode.Folder)
+        if (Mode == PathBoxMode.Directory)
         {
             Text = DialogUtils.FolderBrowserDialog(Text);
         }
@@ -70,6 +70,6 @@ public enum PathBoxMode
     Generic,
     OpenFile,
     SaveFile,
-    Folder,
+    Directory,
     Color,
 }

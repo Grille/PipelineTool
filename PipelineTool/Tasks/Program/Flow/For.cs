@@ -23,7 +23,7 @@ internal class For : PipelineTask
         Parameters.Add(
             new ParameterInteger("Start", "", "0"),
             new ParameterInteger("End", "", "1"),
-            new ParameterString("Variable", "", "i")
+            new ParameterVariable("Variable", "", "Index")
         );
     }
 

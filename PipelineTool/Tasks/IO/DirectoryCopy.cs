@@ -13,8 +13,8 @@ internal class DirectoryCopy : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.Folder, "Src", "", "SrcDir");
-        Parameters.Def(ParameterTypes.Folder, "Dst", "", "DstDir");
+        Parameters.Def(ParameterTypes.Directory, "Src", "", "SrcDir");
+        Parameters.Def(ParameterTypes.Directory, "Dst", "", "DstDir");
     }
 
     protected override void OnExecute()
