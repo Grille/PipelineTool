@@ -26,6 +26,13 @@ public partial class EditValueDialog : Form
         TextBox.SelectAll();
     }
 
+    public void DisableMultiline()
+    {
+        TextBox.Multiline = false;
+        MaximumSize = new Size(int.MaxValue, MinimumSize.Height);
+        toolStripButton1.Enabled = false;
+    }
+
     private void okCancelPanel1_Button1Click(object sender, EventArgs e)
     {
         DialogResult = DialogResult.Cancel;

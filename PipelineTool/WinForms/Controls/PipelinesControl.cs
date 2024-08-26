@@ -52,6 +52,7 @@ namespace Grille.PipelineTool.WinForms
             ListBox.BoundItems = Pipelines;
 
             EditValueDialog = new EditValueDialog();
+            EditValueDialog.DisableMultiline();
 
             Executer.Runtime.PositionChanged += Executer_PositionChanged;
 

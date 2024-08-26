@@ -19,7 +19,7 @@ $("GamePath","=","Drive/ProgramFiles/Game")
 //
 For("1","4","Index")
     $("FullPath","=","${*GamePath}/V{*Index}/{*FileName}")
-    Call("Example_DeleteFile")
+    Call("Example01_DeleteFile")
 //
 PipelineTool:Grille.PipelineTool.Tasks.Console.Print("Done!")
 
