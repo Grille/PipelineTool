@@ -33,12 +33,10 @@ namespace Grille.PipelineTool
             textBox = new System.Windows.Forms.TextBox();
             groupBoxParameters = new System.Windows.Forms.GroupBox();
             panelParameters = new System.Windows.Forms.Panel();
-            buttonCancel = new System.Windows.Forms.Button();
-            buttonOK = new System.Windows.Forms.Button();
             splitContainer1 = new System.Windows.Forms.SplitContainer();
             treeViewTypes = new TaskTypeTreeView();
+            dialogButtonPanel1 = new DialogButtonPanel();
             textBoxType = new System.Windows.Forms.TextBox();
-            buttonReload = new System.Windows.Forms.Button();
             groupBoxParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -52,7 +50,7 @@ namespace Grille.PipelineTool
             textBox.Location = new System.Drawing.Point(6, 32);
             textBox.Name = "textBox";
             textBox.ReadOnly = true;
-            textBox.Size = new System.Drawing.Size(813, 23);
+            textBox.Size = new System.Drawing.Size(488, 23);
             textBox.TabIndex = 0;
             // 
             // groupBoxParameters
@@ -61,7 +59,7 @@ namespace Grille.PipelineTool
             groupBoxParameters.Controls.Add(panelParameters);
             groupBoxParameters.Location = new System.Drawing.Point(3, 61);
             groupBoxParameters.Name = "groupBoxParameters";
-            groupBoxParameters.Size = new System.Drawing.Size(816, 580);
+            groupBoxParameters.Size = new System.Drawing.Size(491, 450);
             groupBoxParameters.TabIndex = 3;
             groupBoxParameters.TabStop = false;
             groupBoxParameters.Text = "Parameters";
@@ -72,30 +70,8 @@ namespace Grille.PipelineTool
             panelParameters.Dock = System.Windows.Forms.DockStyle.Fill;
             panelParameters.Location = new System.Drawing.Point(3, 19);
             panelParameters.Name = "panelParameters";
-            panelParameters.Size = new System.Drawing.Size(810, 558);
+            panelParameters.Size = new System.Drawing.Size(485, 428);
             panelParameters.TabIndex = 0;
-            // 
-            // buttonCancel
-            // 
-            buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            buttonCancel.Location = new System.Drawing.Point(744, 647);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new System.Drawing.Size(75, 23);
-            buttonCancel.TabIndex = 4;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
-            // 
-            // buttonOK
-            // 
-            buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            buttonOK.Location = new System.Drawing.Point(663, 647);
-            buttonOK.Name = "buttonOK";
-            buttonOK.Size = new System.Drawing.Size(75, 23);
-            buttonOK.TabIndex = 5;
-            buttonOK.Text = "OK";
-            buttonOK.UseVisualStyleBackColor = true;
-            buttonOK.Click += buttonOK_Click;
             // 
             // splitContainer1
             // 
@@ -110,14 +86,12 @@ namespace Grille.PipelineTool
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(dialogButtonPanel1);
             splitContainer1.Panel2.Controls.Add(textBoxType);
-            splitContainer1.Panel2.Controls.Add(buttonReload);
             splitContainer1.Panel2.Controls.Add(groupBoxParameters);
-            splitContainer1.Panel2.Controls.Add(buttonCancel);
-            splitContainer1.Panel2.Controls.Add(buttonOK);
             splitContainer1.Panel2.Controls.Add(textBox);
-            splitContainer1.Size = new System.Drawing.Size(1239, 673);
-            splitContainer1.SplitterDistance = 413;
+            splitContainer1.Size = new System.Drawing.Size(784, 561);
+            splitContainer1.SplitterDistance = 283;
             splitContainer1.TabIndex = 7;
             // 
             // treeViewTypes
@@ -128,10 +102,30 @@ namespace Grille.PipelineTool
             treeViewTypes.Name = "treeViewTypes";
             treeViewTypes.SelectedType = null;
             treeViewTypes.ShowNodeToolTips = true;
-            treeViewTypes.Size = new System.Drawing.Size(413, 673);
+            treeViewTypes.Size = new System.Drawing.Size(283, 561);
             treeViewTypes.TabIndex = 0;
             treeViewTypes.BeforeSelect += treeViewTypes_BeforeSelect;
             treeViewTypes.AfterSelect += treeViewTypes_AfterSelect;
+            // 
+            // dialogButtonPanel1
+            // 
+            dialogButtonPanel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            dialogButtonPanel1.Button1Text = "Cancel";
+            dialogButtonPanel1.Button1Visible = true;
+            dialogButtonPanel1.Button2Text = "Ok";
+            dialogButtonPanel1.Button2Visible = true;
+            dialogButtonPanel1.Button3Text = "Reload";
+            dialogButtonPanel1.Button3Visible = true;
+            dialogButtonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            dialogButtonPanel1.Location = new System.Drawing.Point(0, 514);
+            dialogButtonPanel1.Margin = new System.Windows.Forms.Padding(0);
+            dialogButtonPanel1.Name = "dialogButtonPanel1";
+            dialogButtonPanel1.Size = new System.Drawing.Size(497, 47);
+            dialogButtonPanel1.TabIndex = 9;
+            dialogButtonPanel1.Text = "dialogButtonPanel1";
+            dialogButtonPanel1.Button1Click += buttonCancel_Click;
+            dialogButtonPanel1.Button2Click += buttonOK_Click;
+            dialogButtonPanel1.Button3Click += buttonReload_Click;
             // 
             // textBoxType
             // 
@@ -139,30 +133,18 @@ namespace Grille.PipelineTool
             textBoxType.Location = new System.Drawing.Point(6, 3);
             textBoxType.Name = "textBoxType";
             textBoxType.ReadOnly = true;
-            textBoxType.Size = new System.Drawing.Size(813, 23);
+            textBoxType.Size = new System.Drawing.Size(488, 23);
             textBoxType.TabIndex = 8;
-            // 
-            // buttonReload
-            // 
-            buttonReload.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            buttonReload.Location = new System.Drawing.Point(582, 647);
-            buttonReload.Name = "buttonReload";
-            buttonReload.Size = new System.Drawing.Size(75, 23);
-            buttonReload.TabIndex = 7;
-            buttonReload.Text = "Reload";
-            buttonReload.UseVisualStyleBackColor = true;
-            buttonReload.Click += buttonReload_Click;
             // 
             // EditTaskForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1239, 673);
+            ClientSize = new System.Drawing.Size(784, 561);
             Controls.Add(splitContainer1);
             DoubleBuffered = true;
             Name = "EditTaskForm";
             ShowInTaskbar = false;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "EditTaksForm";
             groupBoxParameters.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
@@ -177,12 +159,10 @@ namespace Grille.PipelineTool
 
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.GroupBox groupBoxParameters;
-        private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Panel panelParameters;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private TaskTypeTreeView treeViewTypes;
-        private System.Windows.Forms.Button buttonReload;
         private System.Windows.Forms.TextBox textBoxType;
+        private DialogButtonPanel dialogButtonPanel1;
     }
 }
