@@ -41,3 +41,23 @@ $("Message","=","$Hello {*Name}")
 PipelineTool:Grille.PipelineTool.Tasks.Program.Windows.ShowMsgBox("Name","*Message","Ok/Cancel","Warn","Result")
 PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*Result")
 
+[Example03_TextManipulation]
+//
+$("Text","=","v0, V1, v2 , x4")
+//
+PipelineTool:Grille.PipelineTool.Tasks.Text.StringSplit("*Text",",","List")
+//
+ForEach("List","*List","Item0")
+    PipelineTool:Grille.PipelineTool.Tasks.Text.StringTrim("*Item0","Item1")
+    PipelineTool:Grille.PipelineTool.Tasks.Text.StringUpperCase("*Item1","Item2")
+    PipelineTool:Grille.PipelineTool.Tasks.Text.StringSection("*Item2","1","1","Item3")
+//
+    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("-----------------------")
+    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item0}'")
+    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item1}'")
+    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item2}'")
+    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item3}'")
+//
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("-----------------------")
+PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*List")
+

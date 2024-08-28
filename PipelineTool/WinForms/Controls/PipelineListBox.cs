@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Grille.PipelineTool.Expressions.ExpressionParser;
 
 namespace Grille.PipelineTool.WinForms.Controls;
 
@@ -47,9 +48,13 @@ public class PipelineListBox : ListBox<Pipeline>
         var boundsText = (RectangleF)e.Bounds;
         boundsText.Width -= lineColumnWidth;
         boundsText.X += lineColumnWidth;
-
         g.FillRectangle(brushLineBack, boundsLine);
 
+        if (e.State.HasFlag(DrawItemState.Selected))
+        {
+            var srect = new RectangleF(boundsText.X, boundsText.Y, boundsText.Width, boundsText.Height);
+            g.FillRectangle(new SolidBrush(Color.LightBlue), srect);
+        }
 
         if (stackContains)
         {
@@ -59,10 +64,7 @@ public class PipelineListBox : ListBox<Pipeline>
             g.DrawString((stackIdx + 1).ToString(), font, brushLine, boundsLine);
         }
 
-
         g.DrawString(pipeline.ToString(), font, brushText, boundsText);
-
-        //base.OnDrawItem(e);
     }
 
     protected override void OnCopyToClipboard()

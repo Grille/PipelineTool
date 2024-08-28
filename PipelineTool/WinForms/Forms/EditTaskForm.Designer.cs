@@ -47,10 +47,11 @@ namespace Grille.PipelineTool
             // textBox
             // 
             textBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             textBox.Location = new System.Drawing.Point(6, 32);
             textBox.Name = "textBox";
             textBox.ReadOnly = true;
-            textBox.Size = new System.Drawing.Size(488, 23);
+            textBox.Size = new System.Drawing.Size(488, 22);
             textBox.TabIndex = 0;
             // 
             // groupBoxParameters
@@ -130,10 +131,11 @@ namespace Grille.PipelineTool
             // textBoxType
             // 
             textBoxType.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxType.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             textBoxType.Location = new System.Drawing.Point(6, 3);
             textBoxType.Name = "textBoxType";
             textBoxType.ReadOnly = true;
-            textBoxType.Size = new System.Drawing.Size(488, 23);
+            textBoxType.Size = new System.Drawing.Size(488, 22);
             textBoxType.TabIndex = 8;
             // 
             // EditTaskForm

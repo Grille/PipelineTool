@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,13 +30,13 @@ internal class ForEach : PipelineTask
 
     protected override void OnExecute()
     {
-        string mode = EvalParameter("Mode");
-        string collection = EvalParameter("Collection");
-        string variable = EvalParameter("Variable");
+        var mode = EvalParameter("Mode");
+        var collection = EvalParameter("Collection");
+        var variable = EvalParameter("Variable");
 
-        string[] items = mode switch
+        IEnumerable items = (string)mode switch
         {
-            "List" => Parameter.ValueToList(collection).ToArray(),
+            "List" => collection.GetEnumerator(),
             "Directorys" => Directory.GetDirectories(collection),
             "Files" => Directory.GetFiles(collection),
             _ => throw new ArgumentOutOfRangeException(mode)
@@ -43,7 +44,7 @@ internal class ForEach : PipelineTask
 
         foreach (var item in items)
         {
-            Runtime.Variables[variable] = item.Trim();
+            Runtime.Variables[variable] = new VariableValue(item);
             Runtime.ExecuteNextBlock();
         }
         Runtime.SkipNextBlock();

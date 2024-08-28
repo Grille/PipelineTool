@@ -68,18 +68,27 @@ public class PipelineTaskListBox : ListBox<PipelineTask>
 
         g.DrawString((e.Index + 1).ToString(), font, brushLine, boundsLine);
 
-        var ctx = TokenRenderer.CreateContext(g, font);
-        var position = new PointF(boundsText.X + ctx.CharSize * task.Scope * 4, boundsText.Y);
+        var tokens = task.ToTokens();
 
-        if (!task.Enabled)
+        var renderer = new TokenRenderer(g, font);
+        var indentationWidth = renderer.CharSize * task.Scope * 4;
+        var selectionWidth = indentationWidth + renderer.CharSize * (tokens.GetTextLength() + 1);
+        var position = new PointF(boundsText.X + indentationWidth, boundsText.Y);
+
+        if (e.State.HasFlag(DrawItemState.Selected))
         {
-            var text = task.ToString();
-            g.DrawString(text, font, TokenBrushes.Comment, position);
-            return;
+            var srect = new RectangleF(boundsText.X, boundsText.Y, selectionWidth, boundsText.Height);
+            g.FillRectangle(new SolidBrush(Color.LightBlue), srect);
         }
 
-        var tokens = task.ToTokens();
-        TokenRenderer.DrawTokens(ctx, tokens, ref position);
+        if (task.Enabled)
+        {
+            renderer.DrawTokens(tokens, ref position);
+        }
+        else
+        {
+            renderer.DrawTokensSingleColor(tokens, TokenBrushes.Comment, ref position);
+        }
     }
 
     bool HandleKeyDown(KeyEventArgs e)

@@ -1,4 +1,5 @@
-﻿using Grille.PipelineTool.IO;
+﻿using Grille.PipelineTool.Expressions;
+using Grille.PipelineTool.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -127,6 +128,9 @@ public abstract class PipelineTask
             clone.Parameters[key] = Parameters[key];
         }
 
+        clone.Enabled = Enabled;
+        clone.Scope = Scope;
+
         return clone;
     }
 
@@ -190,6 +194,6 @@ public abstract class PipelineTask
         ArgumentNullException.ThrowIfNull(Runtime);
 
         var value = Parameters[name];
-        return Runtime.EvalParameterValue(value);
+        return ExpressionEvaluator.Eval(value, Runtime);
     }
 }

@@ -31,6 +31,7 @@ partial class EditValueDialog
     private void InitializeComponent()
     {
         tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+        dialogButtonPanel = new DialogButtonPanel();
         TextBox = new System.Windows.Forms.TextBox();
         toolStrip1 = new System.Windows.Forms.ToolStrip();
         toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -39,7 +40,6 @@ partial class EditValueDialog
         toolStripButton3 = new System.Windows.Forms.ToolStripButton();
         toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
         toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-        dialogButtonPanel = new DialogButtonPanel();
         tableLayoutPanel1.SuspendLayout();
         toolStrip1.SuspendLayout();
         SuspendLayout();
@@ -60,9 +60,29 @@ partial class EditValueDialog
         tableLayoutPanel1.Size = new System.Drawing.Size(284, 91);
         tableLayoutPanel1.TabIndex = 1;
         // 
+        // dialogButtonPanel
+        // 
+        dialogButtonPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+        dialogButtonPanel.Button1Text = "Cancel";
+        dialogButtonPanel.Button1Visible = true;
+        dialogButtonPanel.Button2Text = "Ok";
+        dialogButtonPanel.Button2Visible = true;
+        dialogButtonPanel.Button3Text = "Button_3";
+        dialogButtonPanel.Button3Visible = false;
+        dialogButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+        dialogButtonPanel.Location = new System.Drawing.Point(0, 44);
+        dialogButtonPanel.Margin = new System.Windows.Forms.Padding(0);
+        dialogButtonPanel.Name = "dialogButtonPanel";
+        dialogButtonPanel.Size = new System.Drawing.Size(284, 47);
+        dialogButtonPanel.TabIndex = 0;
+        dialogButtonPanel.Text = "dialogButtonPanel1";
+        dialogButtonPanel.Button1Click += okCancelPanel1_Button1Click;
+        dialogButtonPanel.Button2Click += okCancelPanel1_Button2Click;
+        // 
         // TextBox
         // 
         TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+        TextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
         TextBox.Location = new System.Drawing.Point(12, 12);
         TextBox.Margin = new System.Windows.Forms.Padding(12);
         TextBox.Multiline = true;
@@ -129,25 +149,6 @@ partial class EditValueDialog
         toolStripButton4.Size = new System.Drawing.Size(23, 22);
         toolStripButton4.Text = "Select Color";
         toolStripButton4.Click += toolStripButton4_Click;
-        // 
-        // dialogButtonPanel
-        // 
-        dialogButtonPanel.BackColor = System.Drawing.SystemColors.ControlLight;
-        dialogButtonPanel.Button1Text = "Cancel";
-        dialogButtonPanel.Button1Visible = true;
-        dialogButtonPanel.Button2Text = "Ok";
-        dialogButtonPanel.Button2Visible = true;
-        dialogButtonPanel.Button3Text = "Button_3";
-        dialogButtonPanel.Button3Visible = false;
-        dialogButtonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-        dialogButtonPanel.Location = new System.Drawing.Point(0, 44);
-        dialogButtonPanel.Margin = new System.Windows.Forms.Padding(0);
-        dialogButtonPanel.Name = "dialogButtonPanel";
-        dialogButtonPanel.Size = new System.Drawing.Size(284, 47);
-        dialogButtonPanel.TabIndex = 0;
-        dialogButtonPanel.Text = "dialogButtonPanel1";
-        dialogButtonPanel.Button1Click += okCancelPanel1_Button1Click;
-        dialogButtonPanel.Button2Click += okCancelPanel1_Button2Click;
         // 
         // EditValueDialog
         // 

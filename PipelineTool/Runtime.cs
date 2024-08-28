@@ -1,4 +1,6 @@
-﻿using Grille.PipelineTool.IO;
+﻿using Grille.PipelineTool.Expressions;
+using Grille.PipelineTool.IO;
+using Grille.PipelineTool.Tasks;
 using Grille.PipelineTool.WinForms;
 using System;
 using System.CodeDom.Compiler;
@@ -149,7 +151,7 @@ public class Runtime
 
     public VariableValue EvalParameter(Parameter parameter)
     {
-        return EvalParameterValue(parameter.Value);
+        return ExpressionEvaluator.Eval(parameter.Value, this);
     }
 
     public void IncVariableScope()
@@ -215,144 +217,18 @@ public class Runtime
             int idx = count + start;
 
             if (idx >= tasks.Count)
+            {
                 return count;
+            }
 
-            if (tasks[idx].Scope <= scope) {
+            var task = tasks[idx];
+
+            if (task.Scope <= scope && task is not NopTask)
+            {
                 return count;
             }
 
             count += 1;
-        }
-    }
-
-    public VariableValue EvalParameterValue(string value)
-    {
-        return EvalParameterValue(value.AsMemory());
-    }
-
-    public VariableValue EvalParameterValue(ReadOnlyMemory<char> value)
-    {
-        var tokens = new List<Token>();
-        TokenizeParameterValue(value, tokens);
-
-        if (tokens.Count == 1)
-        {
-            var token = tokens[0];
-
-            switch (token.Type)
-            {
-                case TokenType.ValueString:
-                {
-                    return token.Text.ToString();
-                }
-                case TokenType.ValueVariable:
-                {
-                    var key = EvalParameterValue(token.Text);
-                    return Variables[key];
-                }
-                default:
-                {
-                    throw new InvalidOperationException();
-                }
-            }
-        }
-
-        var sb = new StringBuilder();
-
-        foreach (var token in tokens) {
-            switch (token.Type)
-            {
-                case TokenType.ValueSymbol:
-                {
-                    continue;
-                }
-                case TokenType.ValueString:
-                {
-                    sb.Append(token.Text);
-                    continue;
-                }
-                case TokenType.ValueVariable:
-                {
-                    var key = EvalParameterValue(token.Text);
-                    sb.Append(Variables[key].Value);
-                    continue;
-                }
-                default:
-                {
-                    throw new InvalidOperationException();
-                }
-            }
-        }
-
-        return sb.ToString();
-    }
-
-    public static IReadOnlyList<Token> TokenizeParameterValue(ReadOnlyMemory<char> value)
-    {
-        var tokens = new List<Token>();
-        TokenizeParameterValue(value, tokens);
-        return tokens;
-    }
-
-    public static void TokenizeParameterValue(ReadOnlyMemory<char> value, List<Token> tokens)
-    {
-        if (value.Length == 0)
-            return;
-
-        if (value.Span[0] == '*')
-        {
-            tokens.Add(new Token(TokenType.ValueSymbol, value.Slice(0, 1)));
-            tokens.Add(new Token(TokenType.ValueVariable, value.Slice(1, value.Length - 1)));
-        }
-        else if (value.Span[0] == '$')
-        {
-            tokens.Add(new Token(TokenType.ValueSymbol, value.Slice(0, 1)));
-
-            var slice = value.Slice(1);
-            var span = slice.Span;
-
-            int begin = 0;
-            bool insideBlock = false;
-
-            for (int i = 0; i < span.Length; i++)
-            {
-                if (!insideBlock && span[i] == '{')
-                {
-                    int end = i;
-                    int length = end - begin;
-                    if (length > 0)
-                    {
-                        tokens.Add(new Token(TokenType.ValueString, slice.Slice(begin, length)));
-                    }
-                    tokens.Add(new Token(TokenType.ValueSymbol, slice.Slice(i, 1)));
-                    insideBlock = true;
-                    begin = i + 1;
-                }
-                else if (insideBlock && span[i] == '}')
-                {
-                    int end = i;
-                    int length = end - begin;
-                    if (length > 0)
-                    {
-                        TokenizeParameterValue(slice.Slice(begin, length), tokens);
-                    }
-                    tokens.Add(new Token(TokenType.ValueSymbol, slice.Slice(i, 1)));
-                    insideBlock = false;
-                    begin = i + 1;
-                }
-            }
-            {
-                int end = span.Length;
-                int length = end - begin;
-                if (length > 0)
-                {
-                    tokens.Add(new Token(TokenType.ValueString, slice.Slice(begin, length)));
-                }
-            }
-        }
-        else
-        {
-            tokens.Add(new Token(TokenType.ValueString, value));
         }
     }
 }

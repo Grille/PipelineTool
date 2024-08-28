@@ -48,17 +48,17 @@ internal class VariableOperation : PipelineTask
         }
     }
 
-    private ReadOnlyMemory<char> GetValueText()
+    private string GetValueText()
     {
         var raw = Parameters["Value"];
         for (int i = 0; i < raw.Length; i++)
         {
             if (raw[i] == '\n' ||  raw[i] == '\r')
             {
-                return raw.AsMemory(0, i);
+                return raw.Substring(0, i);
             }
         }
-        return raw.AsMemory();
+        return raw;
     }
 
     public override Token[] ToTokens() => new Token[]

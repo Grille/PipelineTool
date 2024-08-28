@@ -205,7 +205,7 @@ namespace Grille.PipelineTool.WinForms
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ButtonNew, ButtonEdit, ButtonRemove, ButtonCopy, ButtonPaste, ButtonEnabled, toolStripSeparator1, ButtonUp, ButtonDown, toolStripSeparator4, ButtonLeft, ButtonRight });
             toolStrip1.Location = new System.Drawing.Point(3, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(285, 25);
+            toolStrip1.Size = new System.Drawing.Size(254, 25);
             toolStrip1.TabIndex = 0;
             // 
             // ButtonNew

@@ -121,6 +121,8 @@ public partial class EditTaskForm : Form
 
             var input = param.CreateControl();
 
+            input.Font = new Font("Consolas", 9);
+
             input.Left = label.Width;
             input.Width = panel.Width - label.Width - 10;
 
@@ -226,6 +228,8 @@ public partial class EditTaskForm : Form
 
         var oldTask = Task;
         Task = PipelineTask.FromType(type);
+        Task.Scope = oldTask.Scope;
+        Task.Enabled = oldTask.Enabled;
 
         if (keepValues)
         {

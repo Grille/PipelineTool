@@ -130,15 +130,8 @@ public abstract class ListBox<T> : ListBox where T : class
         if (e.Index == -1)
             return;
 
-        if (e.State.HasFlag(DrawItemState.Selected))
-        {
-            e.Graphics.FillRectangle(new SolidBrush(Color.LightBlue), e.Bounds);
-        }
-        else
-        {
-            e.Graphics.FillRectangle(new SolidBrush(e.BackColor), e.Bounds);
-        }
-
+        e.Graphics.FillRectangle(Brushes.White, e.Bounds);
+        
         var item = (T)Items[e.Index];
 
         try
@@ -214,6 +207,12 @@ public abstract class ListBox<T> : ListBox where T : class
             else if (e.KeyCode == Keys.V)
             {
                 PasteFromClipboard();
+                return true;
+            }
+            else if (e.KeyCode == Keys.X)
+            {
+                CopyToClipboard();
+                RemoveSelectedItems();
                 return true;
             }
         }

@@ -9,15 +9,9 @@ namespace Grille.PipelineTool.IO;
 public struct Token
 {
     readonly public TokenType Type;
-    readonly public ReadOnlyMemory<char> Text;
+    readonly public string Text;
 
     public Token(TokenType type, string text)
-    {
-        Text = text.AsMemory();
-        Type = type;
-    }
-
-    public Token(TokenType type, ReadOnlyMemory<char> text)
     {
         Text = text;
         Type = type;
@@ -29,10 +23,7 @@ public struct Token
 public enum TokenType
 {
     Text,
-    ValueVariable,
-    ValueSymbol,
     Expression,
-    ValueString,
     Comment,
     Error,
     Flow,

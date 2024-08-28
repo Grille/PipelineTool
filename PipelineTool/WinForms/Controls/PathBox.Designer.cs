@@ -35,6 +35,7 @@ partial class PathBox
         // Button
         // 
         Button.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+        Button.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
         Button.Location = new System.Drawing.Point(172, 0);
         Button.Name = "Button";
         Button.Size = new System.Drawing.Size(28, 23);
@@ -59,7 +60,7 @@ partial class PathBox
         Controls.Add(TextBox);
         Controls.Add(Button);
         Name = "PathBox";
-        Size = new System.Drawing.Size(200, 23);
+        Size = new System.Drawing.Size(200, 25);
         ResumeLayout(false);
         PerformLayout();
     }

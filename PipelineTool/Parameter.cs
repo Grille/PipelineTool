@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Grille.PipelineTool.Expressions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Grille.PipelineTool;
 
@@ -56,17 +58,6 @@ public abstract class Parameter
         var obj = new TextBox();
         obj.Text = Value;
         return obj;
-    }
-
-    public static List<string> ValueToList(string value)
-    {
-        var array = value.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-        var list = new List<string>();
-        foreach (var item in array)
-        {
-            list.Add(item.Trim());
-        }
-        return list;
     }
 }
 

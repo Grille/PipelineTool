@@ -1,54 +1,63 @@
-﻿using Grille.PipelineTool.IO;
+﻿using Grille.PipelineTool.Expressions;
+using Grille.PipelineTool.IO;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Reflection.PortableExecutable;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Grille.PipelineTool.WinForms;
 
-public static class TokenRenderer
+public struct TokenRenderer
 {
-    public record struct Context(Graphics Graphics, Font Font, float Margin, float CharSize);
-
     readonly static StringFormat StringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
 
-    public static Context CreateContext(Graphics g, Font font)
+    public Graphics Graphics { get; }
+    public Font Font { get; }
+    public float Margin { get; }
+    public float CharSize { get; }
+
+    public TokenRenderer(Graphics g, Font font)
     {
-        float margin = g.MeasureString(" ", font).Width;
-        float charsize = g.MeasureString("O", font).Width - margin;
-        return new Context(g, font, margin, charsize);
+        Graphics = g;
+        Font = font;
+        Margin = g.MeasureString(" ", font).Width;
+        CharSize = g.MeasureString("O", font).Width - Margin;
     }
 
-    public static void DrawTokens(in Context ctx, IReadOnlyList<Token> tokens, ref PointF position)
+    public void DrawTokensSingleColor(IReadOnlyList<Token> tokens, Brush brush, ref PointF position)
     {
-        for (int i = 0; i < tokens.Count; i++)
+        foreach (Token token in tokens)
         {
-            DrawToken(ctx, tokens[i], ref position);
+            DrawText(token.Text, brush, ref position);
         }
     }
 
-    public static void DrawToken(in Context ctx, Token token, ref PointF position)
+    public void DrawTokens(IReadOnlyList<Token> tokens, ref PointF position)
+    {
+        for (int i = 0; i < tokens.Count; i++)
+        {
+            DrawToken(tokens[i], ref position);
+        }
+    }
+
+    public void DrawToken(Token token, ref PointF position)
     {
         var text = token.Text.ToString();
 
         if (string.IsNullOrEmpty(text))
             return;
 
-        (var g, var font, var margin, var _) = ctx;
-
-        var size = g.MeasureString(text, font, 0, StringFormat);
-
-        var drawrect = new RectangleF(position, size);
-
         if (token.Type == TokenType.Expression)
         {
-            var tokens = Runtime.TokenizeParameterValue(token.Text);
-            DrawTokens(ctx, tokens, ref position);
+            var expression = ExpressionParser.Tokenize(token.Text, true);
+            DrawExpression(expression, ref position);
             return;
         }
 
@@ -57,14 +66,38 @@ public static class TokenRenderer
             TokenType.Text => TokenBrushes.Text,
             TokenType.Comment => TokenBrushes.Comment,
             TokenType.Flow => TokenBrushes.Flow,
-            TokenType.ValueString => TokenBrushes.String,
-            TokenType.ValueSymbol => TokenBrushes.Symbol,
-            TokenType.ValueVariable => TokenBrushes.Variable,
             _ => TokenBrushes.Error,
         };
 
-        g.DrawString(text, font, brush, drawrect);
+        DrawText(text, brush, ref position);
+    }
 
-        position.X += size.Width - margin;
+    public void DrawExpression(Expression exp, ref PointF position)
+    {
+        var lastToken = new ExpressionParser.Token(ExpressionParser.TokenType.Literal, string.Empty);
+
+        foreach (var token in exp.Tokens)
+        {
+            var isDereference = lastToken.Type == ExpressionParser.TokenType.Symbol && lastToken.Text == "*";
+            var brush = token.Type switch
+            {
+                ExpressionParser.TokenType.Literal => isDereference ? TokenBrushes.Variable : TokenBrushes.String,
+                ExpressionParser.TokenType.Symbol => token.Text == "*" ? Brushes.Green : TokenBrushes.Symbol,
+                _ => TokenBrushes.Error,
+            };
+
+            lastToken = token;
+
+            DrawText(token.Text, brush, ref position);
+        }
+    }
+
+    public void DrawText(string text, Brush brush, ref PointF position)
+    {
+        var size = Graphics.MeasureString(text, Font, 0, StringFormat);
+        var drawrect = new RectangleF(position, size);
+        position.X += size.Width - Margin;
+
+        Graphics.DrawString(text, Font, brush, drawrect);
     }
 }

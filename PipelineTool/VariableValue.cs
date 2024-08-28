@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -30,15 +31,64 @@ public struct VariableValue
 
     public static implicit operator VariableValue(string value) => new VariableValue(value);
 
-    public static implicit operator string(VariableValue value) => value.ToStringOrEmpty();
+    public static implicit operator string(VariableValue value) => value.ToString();
 
-    string ToStringOrEmpty()
+    public IEnumerable<object> GetEnumerator()
     {
-        var value = Value.ToString();
-        if (value == null)
-            return string.Empty;
-        return value;
+        bool isIEnumerable = Value is IEnumerable;
+        bool isString = Value is string;
+
+        if (isIEnumerable)
+        {
+            foreach (var item in (IEnumerable)Value)
+            {
+                yield return item;
+            }
+        }
+        else if (isString)
+        {
+            var split = ToString().Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in split)
+            {
+                yield return item;
+            }
+        }
+        else
+        {
+            throw new InvalidOperationException();
+        }
     }
 
-    public override string ToString() => ToStringOrEmpty();
+    public override string ToString()
+    {
+        if (Value == null)
+        {
+            return string.Empty;
+        }
+
+        if (Value is string str)
+        {
+            return str;
+        }
+
+        if (Value is IEnumerable enumerable)
+        {
+            var sb = new StringBuilder();
+            bool first = true;
+            foreach (var item in enumerable)
+            {
+                if (!first)
+                {
+                    sb.Append(",");
+                }
+                first = false;
+                sb.Append(item.ToString());
+            }
+            return sb.ToString();
+        }
+
+        var value = Value.ToString();
+
+        return value == null ? string.Empty : value;
+    }
 }
