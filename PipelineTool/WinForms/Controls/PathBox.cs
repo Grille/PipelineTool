@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Grille.PipelineTool.WinForms;
 public partial class PathBox : UserControl
@@ -27,12 +29,37 @@ public partial class PathBox : UserControl
         Mode = mode;
 
         TextBox.TextChanged += TextBox_TextChanged;
-        Button.ForeColor = Color.Black;
+
+        UpdateButtonColor();
     }
 
     private void TextBox_TextChanged(object? sender, EventArgs e)
     {
+        UpdateButtonColor();
         OnTextChanged(e);
+    }
+
+    private bool TryParseColor(out Color color)
+    {
+        var result = int.TryParse(Text, System.Globalization.NumberStyles.HexNumber, null, out int argb);
+        color = Color.FromArgb(argb);
+        return result;
+    }
+
+    private void UpdateButtonColor()
+    {
+        bool isMode = Mode == PathBoxMode.Color || Mode == PathBoxMode.Generic;
+        if (isMode && TryParseColor(out var color))
+        {
+            var invcolor = Color.FromArgb(255 - color.R, 255 - color.G, 255 - color.B);
+            Button.BackColor = color;
+            Button.ForeColor = invcolor;
+        }
+        else
+        {
+            Button.ForeColor = Color.Black;
+            Button.BackColor = Color.Transparent;
+        }
     }
 
     private void Button_Click(object sender, EventArgs e)
@@ -62,6 +89,7 @@ public partial class PathBox : UserControl
                 Text = dialog.TextBox.Text;
             }
         }
+        UpdateButtonColor();
     }
 }
 

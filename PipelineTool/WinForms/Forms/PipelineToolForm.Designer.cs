@@ -40,16 +40,18 @@ namespace Grille.PipelineTool
             saveAsToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             quitToolStripMenuItem = new ToolStripMenuItem();
+            viewToolStripMenuItem = new ToolStripMenuItem();
+            consoleToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             loadExampleToolStripMenuItem = new ToolStripMenuItem();
             showInfoToolStripMenuItem = new ToolStripMenuItem();
-            PipelineToolControl = new PipelineToolControl();
+            PipelineCmdControl = new WinForms.Controls.PipelineCmdControl();
             MenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // MenuStrip
             // 
-            MenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem });
+            MenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, viewToolStripMenuItem, helpToolStripMenuItem });
             MenuStrip.Location = new System.Drawing.Point(0, 0);
             MenuStrip.Name = "MenuStrip";
             MenuStrip.Size = new System.Drawing.Size(784, 24);
@@ -118,6 +120,24 @@ namespace Grille.PipelineTool
             quitToolStripMenuItem.Text = "Exit";
             quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
             // 
+            // viewToolStripMenuItem
+            // 
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consoleToolStripMenuItem });
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            viewToolStripMenuItem.Text = "View";
+            // 
+            // consoleToolStripMenuItem
+            // 
+            consoleToolStripMenuItem.Checked = true;
+            consoleToolStripMenuItem.CheckOnClick = true;
+            consoleToolStripMenuItem.CheckState = CheckState.Checked;
+            consoleToolStripMenuItem.Image = Properties.Resources.Console;
+            consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
+            consoleToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            consoleToolStripMenuItem.Text = "Console";
+            consoleToolStripMenuItem.Click += consoleToolStripMenuItem_Click;
+            // 
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loadExampleToolStripMenuItem, showInfoToolStripMenuItem });
@@ -129,7 +149,7 @@ namespace Grille.PipelineTool
             // 
             loadExampleToolStripMenuItem.Image = Properties.Resources.TextFile;
             loadExampleToolStripMenuItem.Name = "loadExampleToolStripMenuItem";
-            loadExampleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            loadExampleToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             loadExampleToolStripMenuItem.Text = "Load Example";
             loadExampleToolStripMenuItem.Click += loadExampleToolStripMenuItem_Click;
             // 
@@ -138,24 +158,25 @@ namespace Grille.PipelineTool
             showInfoToolStripMenuItem.Enabled = false;
             showInfoToolStripMenuItem.Image = Properties.Resources.Help;
             showInfoToolStripMenuItem.Name = "showInfoToolStripMenuItem";
-            showInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            showInfoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             showInfoToolStripMenuItem.Text = "Show Tutorial";
             showInfoToolStripMenuItem.Click += showInfoToolStripMenuItem_Click;
             // 
-            // PipelineToolControl
+            // PipelineCmdControl
             // 
-            PipelineToolControl.Dock = DockStyle.Fill;
-            PipelineToolControl.Location = new System.Drawing.Point(0, 24);
-            PipelineToolControl.Name = "PipelineToolControl";
-            PipelineToolControl.Size = new System.Drawing.Size(784, 537);
-            PipelineToolControl.TabIndex = 1;
+            PipelineCmdControl.ConsoleVisible = false;
+            PipelineCmdControl.Dock = DockStyle.Fill;
+            PipelineCmdControl.Location = new System.Drawing.Point(0, 24);
+            PipelineCmdControl.Name = "PipelineCmdControl";
+            PipelineCmdControl.Size = new System.Drawing.Size(784, 537);
+            PipelineCmdControl.TabIndex = 1;
             // 
             // PipelineToolForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(784, 561);
-            Controls.Add(PipelineToolControl);
+            Controls.Add(PipelineCmdControl);
             Controls.Add(MenuStrip);
             DoubleBuffered = true;
             HelpButton = true;
@@ -178,10 +199,12 @@ namespace Grille.PipelineTool
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem quitToolStripMenuItem;
-        private PipelineToolControl PipelineToolControl;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem loadExampleToolStripMenuItem;
         private ToolStripMenuItem showInfoToolStripMenuItem;
         public MenuStrip MenuStrip;
+        private WinForms.Controls.PipelineCmdControl PipelineCmdControl;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem consoleToolStripMenuItem;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Grille.PipelineTool.WinForms.Controls;
+﻿using Grille.PipelineTool.WinForms.Controls.Collections;
 
 namespace Grille.PipelineTool.WinForms
 {

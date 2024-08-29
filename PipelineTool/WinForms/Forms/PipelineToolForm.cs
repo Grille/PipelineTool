@@ -19,6 +19,8 @@ namespace Grille.PipelineTool;
 
 public partial class PipelineToolForm : Form
 {
+    public PipelineToolControl PipelineToolControl => PipelineCmdControl.PipelineToolControl;
+
     public PipelineList Pipelines => PipelineToolControl.Pipelines;
 
     public PipelinesControl PipelinesControl => PipelineToolControl.PipelinesControl;
@@ -107,11 +109,6 @@ public partial class PipelineToolForm : Form
         }
     }
 
-    private void helpToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        PipelineToolControl.ShowHelp();
-    }
-
     private void loadExampleToolStripMenuItem_Click(object sender, EventArgs e)
     {
         LoadExample();
@@ -128,5 +125,10 @@ public partial class PipelineToolForm : Form
     private void showInfoToolStripMenuItem_Click(object sender, EventArgs e)
     {
         RichTextForm.ShowTutorial(this, $"{Title} Tutorial");
+    }
+
+    private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        PipelineCmdControl.ConsoleVisible = !consoleToolStripMenuItem.Checked;
     }
 }

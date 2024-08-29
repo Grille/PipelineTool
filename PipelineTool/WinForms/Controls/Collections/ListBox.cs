@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Grille.PipelineTool.WinForms.Controls;
+namespace Grille.PipelineTool.WinForms.Controls.Collections;
 
 public abstract class ListBox<T> : ListBox where T : class
 {
@@ -21,8 +21,10 @@ public abstract class ListBox<T> : ListBox where T : class
         ItemsChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public List<T> BoundItems { get; set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new T? SelectedItem
     {
         get => (T?)base.SelectedItem;
@@ -69,6 +71,8 @@ public abstract class ListBox<T> : ListBox where T : class
     }
 
     AsyncPipelineExecuter? _executer;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public AsyncPipelineExecuter? Executer
     {
         get => _executer;
@@ -90,7 +94,7 @@ public abstract class ListBox<T> : ListBox where T : class
         BoundItems = new List<T>(0);
     }
 
-    protected override void OnPaint(PaintEventArgs e)
+    protected sealed override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics;
         g.FillRectangle(new SolidBrush(BackColor), e.ClipRectangle);
@@ -122,16 +126,13 @@ public abstract class ListBox<T> : ListBox where T : class
 
     }
 
-    protected override void OnDrawItem(DrawItemEventArgs e)
+    protected sealed override void OnDrawItem(DrawItemEventArgs e)
     {
-        if (Executer == null)
-            return;
-
         if (e.Index == -1)
             return;
 
         e.Graphics.FillRectangle(Brushes.White, e.Bounds);
-        
+
         var item = (T)Items[e.Index];
 
         try
@@ -143,7 +144,7 @@ public abstract class ListBox<T> : ListBox where T : class
 
     protected abstract void OnDrawItem(DrawItemEventArgs e, T item);
 
-    public void UpdateItems(List<T> list)
+    public void UpdateItems(List<T> list, bool invalidate = true)
     {
         BoundItems = list;
 
@@ -177,7 +178,11 @@ public abstract class ListBox<T> : ListBox where T : class
             SelectedItem = selectet;
 
         EndUpdate();
-        Invalidate();
+
+        if (invalidate)
+        {
+            Invalidate();
+        }
     }
 
     bool HandleKeyDown(KeyEventArgs e)

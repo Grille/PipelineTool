@@ -43,7 +43,7 @@ PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*Result")
 
 [Example03_TextManipulation]
 //
-$("Text","=","v0, V1, v2 , x4")
+$("Text","=","v0, V1, v2 , 33,x4")
 //
 PipelineTool:Grille.PipelineTool.Tasks.Text.StringSplit("*Text",",","List")
 //

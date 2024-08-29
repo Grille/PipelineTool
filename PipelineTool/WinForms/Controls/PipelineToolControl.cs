@@ -168,8 +168,4 @@ public partial class PipelineToolControl : UserControl
         }
         return result;
     }
-
-    public void ShowHelp()
-    {
-    }
 }

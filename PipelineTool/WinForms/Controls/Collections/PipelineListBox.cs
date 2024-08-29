@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Grille.PipelineTool.Expressions.ExpressionParser;
 
-namespace Grille.PipelineTool.WinForms.Controls;
+namespace Grille.PipelineTool.WinForms.Controls.Collections;
 
 public class PipelineListBox : ListBox<Pipeline>
 {

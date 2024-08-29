@@ -34,8 +34,6 @@ internal class DirectoryCopy : PipelineTask
         {
             File.Copy(newPath, newPath.Replace(srcPath, dstPath), true);
         }
-
-        Runtime.Logger.Info($"Copy dir {srcPath} to {dstPath}");
     }
 
     public override Token[] ToTokens() => new Token[]

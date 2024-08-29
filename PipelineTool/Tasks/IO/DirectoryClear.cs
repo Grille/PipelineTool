@@ -28,8 +28,6 @@ internal class DirectoryClear : PipelineTask
 
         foreach (var dir in Directory.GetDirectories(path))
             Directory.Delete(dir, true);
-
-        Runtime.Logger.Info($"Clear Directory {path}");
     }
 
     public override Token[] ToTokens() => new Token[]

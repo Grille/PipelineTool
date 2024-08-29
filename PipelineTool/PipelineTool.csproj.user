@@ -1,13 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="WinForms\Controls\ConsoleListBox.cs">
+    <Compile Update="WinForms\Controls\Collections\ConsoleListBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\ConsoleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="WinForms\Controls\PipelineCmdControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="WinForms\Forms\EditTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="WinForms\Controls\ListBox.cs">
+    <Compile Update="WinForms\Controls\Collections\ListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="WinForms\Controls\DialogButtonPanel.cs">
@@ -16,13 +22,13 @@
     <Compile Update="WinForms\Controls\PathBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="WinForms\Controls\PipelineListBox.cs">
+    <Compile Update="WinForms\Controls\Collections\PipelineListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="WinForms\Controls\PipelinesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="WinForms\Controls\PipelineTaskListBox.cs">
+    <Compile Update="WinForms\Controls\Collections\PipelineTaskListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="WinForms\Controls\PipelineTasksControl.cs">

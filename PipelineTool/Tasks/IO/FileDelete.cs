@@ -21,8 +21,6 @@ internal class FileDelete : PipelineTask
         string path = EvalParameter("Path");
 
         File.Delete(path);
-
-        Runtime.Logger.Info($"Remove dir {path}");
     }
 
     public override Token[] ToTokens() => new Token[]

@@ -52,7 +52,7 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(TasksControl);
-            splitContainer1.Size = new System.Drawing.Size(1321, 811);
+            splitContainer1.Size = new System.Drawing.Size(800, 600);
             splitContainer1.SplitterDistance = 241;
             splitContainer1.TabIndex = 0;
             // 
@@ -63,7 +63,7 @@
             PipelinesControl.Logger = consoleLogger1;
             PipelinesControl.Name = "PipelinesControl";
             PipelinesControl.SelectedItem = null;
-            PipelinesControl.Size = new System.Drawing.Size(241, 811);
+            PipelinesControl.Size = new System.Drawing.Size(241, 600);
             PipelinesControl.TabIndex = 0;
             PipelinesControl.TasksControl = null;
             // 
@@ -74,7 +74,7 @@
             TasksControl.Name = "TasksControl";
             TasksControl.Pipeline = null;
             TasksControl.SelectedItem = null;
-            TasksControl.Size = new System.Drawing.Size(1076, 811);
+            TasksControl.Size = new System.Drawing.Size(555, 600);
             TasksControl.TabIndex = 0;
             // 
             // PipelineToolControl
@@ -82,8 +82,9 @@
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             Controls.Add(splitContainer1);
+            DoubleBuffered = true;
             Name = "PipelineToolControl";
-            Size = new System.Drawing.Size(1321, 811);
+            Size = new System.Drawing.Size(800, 600);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
