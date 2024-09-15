@@ -28,7 +28,7 @@ public class PipelineListBox : ListBox<Pipeline>
         Brush brushLine = Brushes.DimGray;
         Brush brushText;
 
-        brushText = new SolidBrush(Color.Black);
+        brushText = pipeline.Tasks.ContainsInvalid ? Brushes.Red : Brushes.Black;
 
         if (Executer == null)
             return;

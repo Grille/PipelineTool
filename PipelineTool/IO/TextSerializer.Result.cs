@@ -10,6 +10,9 @@ public static partial class TextSerializer
 {
     public class Result
     {
+        public int LineNr;
+        public int Spaces;
+
         private List<PipelineTask> _tasks;
 
         public List<PipelineTask> Headless { get; }

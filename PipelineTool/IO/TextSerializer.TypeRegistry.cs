@@ -61,9 +61,17 @@ public static partial class TextSerializer
             }
 
             if (type == null)
+            {
                 return new InvalidTypeTask(key, argCount);
+            }
 
-            return (PipelineTask?)Activator.CreateInstance(type) ?? throw new InvalidOperationException();
+            var instance = (PipelineTask?)Activator.CreateInstance(type);
+            if (instance == null || instance.Parameters.Count != argCount)
+            {
+                return new InvalidTypeTask(key, argCount);
+            }
+
+            return instance;
         }
 
         public static string Get(PipelineTask task)
