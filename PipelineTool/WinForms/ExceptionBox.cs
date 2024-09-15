@@ -23,6 +23,24 @@ internal static class ExceptionBox
 
     public static DialogResult Show(IWin32Window owner, Exception e, MessageBoxButtons buttons = MessageBoxButtons.OK)
     {
-        return MessageBox.Show(owner, e.Message, e.GetType().Name, buttons, MessageBoxIcon.Error);
+        var title = e.GetType().Name;
+
+        var sb = new StringBuilder();
+        sb.AppendLine(e.Message);
+
+        while (e.InnerException != null)
+        {
+            e = e.InnerException;
+
+            sb.AppendLine();
+            sb.Append(e.GetType().Name);
+            sb.Append(":");
+            sb.AppendLine();
+            sb.AppendLine(e.Message);
+        }
+
+        var message = sb.ToString();
+
+        return MessageBox.Show(owner, message, title, buttons, MessageBoxIcon.Error);
     }
 }

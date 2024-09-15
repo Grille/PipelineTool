@@ -138,76 +138,87 @@ public static partial class TextSerializer
     {
         using var tr = new StreamReader(stream);
 
-        var result = new Result();
-
-        int spaces = Spaces;
+        var result = new Result()
+        {
+            Spaces = Spaces,
+        };
 
         while (true)
         {
+            result.LineNr += 1;
             var line = tr.ReadLine();
+
             if (line == null)
-                break;
+            {
+                return result;
+            }
 
             if (string.IsNullOrWhiteSpace(line))
             {
                 continue;
             }
 
-            int scope = GetScope(line, spaces);
-            var tline = line.Trim();
-
-            if (tline.StartsWith('#'))
+            try
             {
-                var split = tline.Split(' ', 2);
-                var key = split[0].ToLower();
-
-                if (key == "#spaces" && split.Length == 2)
-                {
-                    spaces = int.Parse(split[1]);
-                }
-
-                continue;
+                DeserializeLine(result, line);
             }
-
-            if (tline.StartsWith("//"))
+            catch (Exception ex)
             {
-                var text = tline.Substring(2);
-                result.Add(new NopTask() { Text = text });
-                continue;
-            }
-
-            if (tline.StartsWith("["))
-            {
-                var sectionName = tline.Substring(1, tline.Length-2);
-                result.Section(sectionName);
-                continue;
-            }
-
-            {
-                bool enabled = !tline.StartsWith('!');
-
-                var split = tline.Split('(', 2);
-                if (split.Length != 2)
-                    continue;
-
-                var taskName = enabled ? split[0] : split[0].Substring(1);
-
-                var args = ParseArgs("(" + split[1]);
-
-                var task = TypeRegistry.Get(taskName, args.Length);
-                task.Scope = scope;
-                for (int i = 0; i < args.Length; i++)
-                {
-                    task.Parameters[i] = args[i];
-                }
-
-                task.Enabled = enabled;
-
-                result.Add(task);
+                throw new ParserException(ex, result);
             }
         }
+    }
 
-        return result;
+    static void DeserializeLine(Result result, string line)
+    {
+        int scope = GetScope(line, result.Spaces);
+        var tline = line.Trim();
+
+        if (tline.StartsWith('#'))
+        {
+            var split = tline.Split(' ', 2);
+            var key = split[0].ToLower();
+
+            if (key == "#spaces" && split.Length == 2)
+            {
+                result.Spaces = int.Parse(split[1]);
+            }
+        }
+        else if (tline.StartsWith("//"))
+        {
+            var text = tline.Substring(2);
+            result.Add(new NopTask() { Text = text });
+        }
+        else if (tline.StartsWith("["))
+        {
+            var sectionName = tline.Substring(1, tline.Length - 2);
+            result.Section(sectionName);
+        }
+        else
+        {
+            bool enabled = !tline.StartsWith('!');
+
+            var split = tline.Split('(', 2);
+            if (split.Length != 2)
+            {
+                return;
+            }
+
+            var taskName = enabled ? split[0] : split[0].Substring(1);
+
+            var args = ParseArgs("(" + split[1]);
+
+            var task = TypeRegistry.Get(taskName, args.Length);
+            task.Scope = scope;
+            for (int i = 0; i < args.Length; i++)
+            {
+                task.Parameters[i] = args[i];
+            }
+
+            task.Enabled = enabled;
+
+            result.Add(task);
+        }
     }
 
     private static string[] ParseArgs(string input)

@@ -22,7 +22,7 @@ public abstract class ListBox<T> : ListBox where T : class
     }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public List<T> BoundItems { get; set; }
+    public IList<T> BoundItems { get; set; }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new T? SelectedItem
@@ -144,7 +144,7 @@ public abstract class ListBox<T> : ListBox where T : class
 
     protected abstract void OnDrawItem(DrawItemEventArgs e, T item);
 
-    public void UpdateItems(List<T> list, bool invalidate = true)
+    public void UpdateItems(IList<T> list, bool invalidate = true)
     {
         BoundItems = list;
 
@@ -306,7 +306,7 @@ public abstract class ListBox<T> : ListBox where T : class
 
     public void SelectAll()
     {
-        SelectedItems = BoundItems;
+        SelectedItems = (IReadOnlyList<T>)BoundItems;
     }
 
     public void InsertItems(IReadOnlyList<T> values)
