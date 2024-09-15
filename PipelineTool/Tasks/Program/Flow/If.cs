@@ -13,7 +13,7 @@ internal class If : PipelineTask
     protected override void OnInit()
     {
         Parameters.Def(ParameterTypes.String, "Value1", "", "Value");
-        Parameters.Def(ParameterTypes.Enum, "Operator", "", "=", new string[] { "==", "!=", ">", "<", "?" });
+        Parameters.Def(ParameterTypes.Enum, "Operator", "", "=", new string[] { "==", "!=", ">", "<" });
         Parameters.Def(ParameterTypes.String, "Value2", "", "Value");
     }
 

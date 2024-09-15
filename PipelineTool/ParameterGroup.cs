@@ -15,10 +15,13 @@ public class ParameterGroup : IEnumerable<Parameter>
     private List<string> keys = new();
     private List<Parameter> values = new();
 
-    public Parameter Def(ParameterTypes type, string name, string desc = "", string value = "", object? args = null)
+    public Parameter Def(ParameterTypes type, string name, string? desc = null, string? value = null, object? args = null)
     {
         if (IsSealed == true)
             throw new InvalidOperationException();
+
+        if (desc == null) desc = string.Empty;
+        if (value == null) value = string.Empty;
 
         var parameter = ParameterFactory.Create(type, name, desc, value, args);
         Add(parameter);
@@ -29,9 +32,9 @@ public class ParameterGroup : IEnumerable<Parameter>
     {
         if (desc == null)
         {
-            desc = $"Variable to write result into.";
+            desc = $"Variable to write {name.ToLower()} into.";
         }
-        return Def(ParameterTypes.Variable, name, desc, "Result");
+        return Def(ParameterTypes.Variable, name, desc, name);
     }
 
     public void Add(Parameter parameter)

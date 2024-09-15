@@ -8,26 +8,26 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/File.Move")]
-internal class FileMove : PipelineTask
+[PipelineTask("IO/Directory.Move")]
+internal class DirectoryMove : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.OpenFile, "Src FileName", "", "file0.txt");
-        Parameters.Def(ParameterTypes.SaveFile, "Dst FileName", "", "file1.txt");
+        Parameters.Def(ParameterTypes.Directory, "Src Directory", "", "dir0");
+        Parameters.Def(ParameterTypes.Directory, "Dst Directory", "", "dir1");
     }
 
     protected override void OnExecute()
     {
-        string oldFile = EvalParameter("Src FileName");
-        string newFile = EvalParameter("Dst FileName");
+        string oldFile = EvalParameter("Src Directory");
+        string newFile = EvalParameter("Dst Directory");
 
-        File.Move(oldFile, newFile);
+        Directory.Move(oldFile, newFile);
     }
 
     public override Token[] ToTokens() => new Token[]
     {
-        new(TokenType.Text, "Rename File "),
+        new(TokenType.Text, "Rename Directory "),
         new(TokenType.Expression, Parameters["Src FileName"]),
         new(TokenType.Text, " -> "),
         new(TokenType.Expression, Parameters["Dst FileName"]),

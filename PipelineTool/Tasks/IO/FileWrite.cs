@@ -13,7 +13,7 @@ internal class FileWrite : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.OpenFile, "Path", "", "SrcFile");
+        Parameters.Def(ParameterTypes.SaveFile, "Path", "", "DstFile");
         Parameters.Def(ParameterTypes.String, "Value", "", "Var");
     }
 

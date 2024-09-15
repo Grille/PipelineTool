@@ -31,6 +31,7 @@ public static class ParameterFactory
         ParameterTypes.Generic => new ParameterPath(name, desc, value, PathBoxMode.Generic),
         ParameterTypes.Color => new ParameterPath(name, desc, value, PathBoxMode.Color),
         ParameterTypes.Variable => new ParameterVariable(name, desc, value),
+        ParameterTypes.Object => new ParameterObject(name, desc, value),
         _ => throw new NotImplementedException()
     };
 }
@@ -59,6 +60,18 @@ public abstract class Parameter
         var obj = new TextBox();
         obj.Text = Value;
         return obj;
+    }
+}
+
+public class ParameterObject : Parameter
+{
+    public ParameterObject(string name, string desc, string value) : base(name, desc, value)
+    {
+    }
+
+    public override bool ValidateValue()
+    {
+        return Value.Length > 0 && Value[0] == '*';
     }
 }
 
@@ -190,5 +203,6 @@ public enum ParameterTypes
     Enum,
     Generic,
     Color,
+    Object,
     Variable,
 }
