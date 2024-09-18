@@ -38,17 +38,17 @@ public struct VariableValue
         bool isIEnumerable = Value is IEnumerable;
         bool isString = Value is string;
 
-        if (isIEnumerable)
-        {
-            foreach (var item in (IEnumerable)Value)
-            {
-                yield return item;
-            }
-        }
-        else if (isString)
+        if (isString)
         {
             var split = ToString().Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var item in split)
+            {
+                yield return item.Trim();
+            }
+        }
+        else if (isIEnumerable)
+        {
+            foreach (var item in (IEnumerable)Value)
             {
                 yield return item;
             }
