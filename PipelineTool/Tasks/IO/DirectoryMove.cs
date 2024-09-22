@@ -28,8 +28,8 @@ internal class DirectoryMove : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new(TokenType.Text, "Rename Directory "),
-        new(TokenType.Expression, Parameters["Src FileName"]),
+        new(TokenType.Expression, Parameters["Src Directory"]),
         new(TokenType.Text, " -> "),
-        new(TokenType.Expression, Parameters["Dst FileName"]),
+        new(TokenType.Expression, Parameters["Dst Directory"]),
     };
 }
