@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Stack;
 
-[PipelineTask("Program/Stack/Push")]
+[PipelineTask("Program/Stack/Push", PipelineTaskKind.Method)]
 internal class Push : PipelineTask
 {
     protected override void OnInit()

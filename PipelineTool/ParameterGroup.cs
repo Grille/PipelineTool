@@ -42,6 +42,9 @@ public class ParameterGroup : IEnumerable<Parameter>
         if (IsSealed == true)
             throw new InvalidOperationException();
 
+        if (parameter.Name == null)
+            throw new InvalidOperationException();
+
         if (keys.Contains(parameter.Name))
             throw new InvalidOperationException();
 
@@ -62,7 +65,7 @@ public class ParameterGroup : IEnumerable<Parameter>
         IsSealed = true;
     }
 
-    public string this[int index]
+    public string? this[int index]
     {
         get
         {
@@ -76,17 +79,19 @@ public class ParameterGroup : IEnumerable<Parameter>
         }
     }
 
-    public string this[string name]
+    public string? this[string name]
     {
         get
         {
-            AssertSealed();
-            return values[keys.IndexOf(name)].Value;
+            int index = keys.IndexOf(name);
+            if (index == -1) throw new KeyNotFoundException(name);
+            return this[index];
         }
         set
         {
-            AssertSealed();
-            values[keys.IndexOf(name)].Value = value;
+            int index = keys.IndexOf(name);
+            if (index == -1) throw new KeyNotFoundException(name);
+            this[index] = value;
         }
     }
 

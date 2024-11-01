@@ -25,7 +25,7 @@ internal class StringContains : PipelineTask
         string value = EvalParameter("Value");
         string find = EvalParameter("Find");
 
-        Runtime.Variables[var] = new VariableValue(value.Contains(find));
+        Runtime.Variables[var] = value.Contains(find);
     }
 
     public override Token[] ToTokens() => new Token[]

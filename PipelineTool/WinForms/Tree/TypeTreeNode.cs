@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace Grille.PipelineTool.WinForms.Tree;
 
@@ -21,12 +22,26 @@ public class TypeTreeNode : TreeNode
 
     public bool Visible { get; init; }
 
-    public TypeTreeNode(Type type, string key, string? description)
+    public TypeTreeNode(Type type, PipelineTaskKind kind, string key, string? description)
     {
         Type = type;
         Key = key;
         Description = description;
         ToolTipText = description;
+
+        (ForeColor, ImageIndex) = kind switch
+        {
+            PipelineTaskKind.Flow => (Color.Black, 1),
+            PipelineTaskKind.Variable => (Color.Navy, 2),
+            PipelineTaskKind.Operator => (Color.Navy, 3),
+            PipelineTaskKind.Method => (Color.Purple, 4),
+            PipelineTaskKind.StringOperation => (Color.Purple, 5),
+            PipelineTaskKind.Comment => (Color.Green, 6),
+            PipelineTaskKind.OperatorCmp => (Color.Black, 7),
+            _ => throw new ArgumentException(),
+        };
+
+        SelectedImageIndex = ImageIndex;
 
         var split = key.Split('/');
         var name = split[split.Length - 1];
@@ -42,12 +57,8 @@ public class TypeTreeNode : TreeNode
         Text = Name;
     }
 
-    public TypeTreeNode(Type type, string key) :
-        this(type, key, "")
-    { }
-
     public TypeTreeNode(Type type, PipelineTaskAttribute attribute) :
-        this(type, attribute.Key, attribute.Description)
+        this(type, attribute.Kind, attribute.Key, attribute.Description)
     { }
 
     public override string ToString() => Key;

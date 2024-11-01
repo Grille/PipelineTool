@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
-[PipelineTask("Program/Flow/Call", Description = "Call another pipeline by its name.")]
+[PipelineTask("Program/Flow/Call", PipelineTaskKind.Flow, Description = "Call another pipeline by its name.")]
 internal class ExecutePipeline : PipelineTask
 {
     protected override void OnInit()

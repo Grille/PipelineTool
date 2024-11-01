@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Grille.PipelineTool.Tasks.Program.Flow;
 using Grille.PipelineTool.Tasks.Program.Stack;
+using Grille.PipelineTool.Tasks.UserInterface;
 
 namespace Grille.PipelineTool.IO;
 public static partial class TextSerializer

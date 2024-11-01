@@ -35,6 +35,7 @@ public struct TokenRenderer
     {
         foreach (Token token in tokens)
         {
+            if (string.IsNullOrEmpty(token.Text)) continue;
             DrawText(token.Text, brush, ref position);
         }
     }
@@ -49,7 +50,7 @@ public struct TokenRenderer
 
     public void DrawToken(Token token, ref PointF position)
     {
-        var text = token.Text.ToString();
+        var text = token.Text;
 
         if (string.IsNullOrEmpty(text))
             return;

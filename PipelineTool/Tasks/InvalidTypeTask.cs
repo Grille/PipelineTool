@@ -25,7 +25,7 @@ internal class InvalidTypeTask : PipelineTask
     {
         for (int i = 0; i < ParametersCount; i++)
         {
-            Parameters.Add(new ParameterString($"U{i}", "", ""));
+            Parameters.Add(new ParameterString() { Name = $"U{i}" });
         }
     }
 

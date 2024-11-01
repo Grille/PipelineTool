@@ -9,29 +9,18 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
-[PipelineTask("Program/Flow/For")]
+[PipelineTask("Program/Flow/For", PipelineTaskKind.Flow)]
 internal class For : PipelineTask
 {
-    /*
-    public Parameter Mode { get; } = new ParameterEnum("Mode", "", "list", new string[] { "List", "Directorys", "Files" });
-    public Parameter Collection { get; } = new ParameterString("Collection", "", "1");
-    public Parameter Variable { get; } = new ParameterString("Variable", "", "i");
-    */
-
-    protected override void OnInit()
-    {
-        Parameters.Add(
-            new ParameterInteger("Start", "", "0"),
-            new ParameterInteger("End", "", "1"),
-            new ParameterVariable("Variable", "", "Index")
-        );
-    }
+    public ParameterInteger Start { get; } = new() { Value = "0" };
+    public ParameterInteger End { get; } = new() { Value = "1" };
+    public ParameterVariable Variable { get; } = new() { Value = "Index" };
 
     protected override void OnExecute()
     {
-        string start = EvalParameter("Start");
-        string end = EvalParameter("End");
-        string variable = EvalParameter("Variable");
+        string start = EvalParameter(Start);
+        string end = EvalParameter(End);
+        string variable = EvalParameter(Variable);
 
         int istart = int.Parse(start);
         int iend = int.Parse(end);

@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/File.Read")]
+[PipelineTask("IO/File/Read")]
 internal class FileRead : PipelineTask
 {
     protected override void OnInit()

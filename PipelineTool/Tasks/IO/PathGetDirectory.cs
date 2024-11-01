@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Path.GetDirectoryName")]
+[PipelineTask("IO/Path/GetDirectoryName")]
 internal class PathGetDirectory : PipelineTask
 {
     protected override void OnInit()

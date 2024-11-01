@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Stack;
 
-[PipelineTask("Program/Stack/Pop")]
+[PipelineTask("Program/Stack/Pop", PipelineTaskKind.Method)]
 internal class Pop : PipelineTask
 {
     protected override void OnInit()

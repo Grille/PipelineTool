@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
-[PipelineTask("Program/Flow/GoTo")]
+[PipelineTask("Program/Flow/GoTo", PipelineTaskKind.Flow)]
 internal class GoTo : PipelineTask
 {
     protected override void OnInit()

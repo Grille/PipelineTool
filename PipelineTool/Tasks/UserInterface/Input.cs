@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace Grille.PipelineTool.Tasks.Program;
+namespace Grille.PipelineTool.Tasks.UserInterface;
 
-[PipelineTask("Program/Input", Description = "")]
+[PipelineTask("UI/Input", Description = "")]
 internal class Input : PipelineTask
 {
     protected override void OnInit()

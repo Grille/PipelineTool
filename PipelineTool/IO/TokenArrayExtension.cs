@@ -14,7 +14,11 @@ public static class TokenArrayExtension
         int length = 0;
         for (int i = 0; i < array.Length; i++)
         {
-            length += array[i].Text.Length;
+            var text = array[i].Text;
+            if (!string.IsNullOrEmpty(text))
+            {
+                length += text.Length;
+            }
         }
         return length;
     }

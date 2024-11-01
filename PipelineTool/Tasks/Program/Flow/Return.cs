@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
-[PipelineTask("Program/Flow/Return")]
+[PipelineTask("Program/Flow/Return", PipelineTaskKind.Flow)]
 internal class Return : PipelineTask
 {
     protected override void OnInit() { }

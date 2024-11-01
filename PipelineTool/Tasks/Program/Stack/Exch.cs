@@ -8,17 +8,15 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Stack;
 
-[PipelineTask("Program/Stack/Exch")]
+[PipelineTask("Program/Stack/Exch", PipelineTaskKind.Method)]
 internal class Exch : PipelineTask
 {
-    protected override void OnInit()
-    {
-        Parameters.Def(ParameterTypes.Variable, "Variable", "", "Var");
-    }
+    public ParameterVariable Variable { get; } = new();
 
     protected override void OnExecute()
     {
-        var name = EvalParameter("Variable");
+        var name = Runtime.EvalParameter(Variable);
+        //var name = EvalParameter("Variable");
 
         var value = Runtime.Variables[name];
         Runtime.Variables[name] = Runtime.ValueStack.Pop();

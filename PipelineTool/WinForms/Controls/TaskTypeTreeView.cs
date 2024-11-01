@@ -40,9 +40,25 @@ internal class TaskTypeTreeView : TreeView
         ExpandAll();
         EndUpdate();
 
+        var images = new ImageList();
+        images.Images.Add(Properties.Resources.Namespace);
+        images.Images.Add(Properties.Resources.Flow);
+        images.Images.Add(Properties.Resources.Field);
+        images.Images.Add(Properties.Resources.Operator);
+        images.Images.Add(Properties.Resources.Method);
+        images.Images.Add(Properties.Resources.StringOperation);
+        images.Images.Add(Properties.Resources.Edit);
+        images.Images.Add(Properties.Resources.OperatorCmp);
+        ImageList = images;
+
         ShowNodeToolTips = true;
 
         _savedNodes = new List<TreeNode>();
+    }
+
+    protected override void OnDrawNode(DrawTreeNodeEventArgs e)
+    {
+        base.OnDrawNode(e);
     }
 
     public void Save()

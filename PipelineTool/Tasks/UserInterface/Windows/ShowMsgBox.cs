@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Grille.PipelineTool.Tasks.Program.Windows;
+namespace Grille.PipelineTool.Tasks.UserInterface.Windows;
 
-[PipelineTask("Program/Windows/Dialog")]
+[PipelineTask("UI/Windows/Dialog")]
 internal class ShowMsgBox : PipelineTask
 {
     protected override void OnInit()
@@ -55,7 +55,7 @@ internal class ShowMsgBox : PipelineTask
         var form = Runtime.UserInterface.ParentForm;
         if (form != null)
         {
-            return form.Invoke(()=>func(form));
+            return form.Invoke(() => func(form));
         }
         throw new InvalidOperationException();
     }

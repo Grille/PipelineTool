@@ -7,32 +7,18 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
-[PipelineTask("Program/Flow/If")]
+[PipelineTask("Program/Flow/If", PipelineTaskKind.Flow)]
 internal class If : PipelineTask
 {
     protected override void OnInit()
     {
-        Parameters.Def(ParameterTypes.String, "Value1", "", "Value");
-        Parameters.Def(ParameterTypes.Enum, "Operator", "", "=", new string[] { "==", "!=", ">", "<" });
-        Parameters.Def(ParameterTypes.String, "Value2", "", "Value");
+        Parameters.Def(ParameterTypes.String, "Value", "", "1");
     }
 
     protected override void OnExecute()
     {
-        var op = Parameters["Operator"].ToLower();
-        var value1 = EvalParameter("Value1");
-        var value2 = EvalParameter("Value2");
-
-        bool result = op switch
-        {
-            "==" => value1 == value2,
-            "!=" => value1 != value2,
-            ">" => decimal.Parse(value1) > decimal.Parse(value2),
-            "<" => decimal.Parse(value1) < decimal.Parse(value2),
-            _ => throw new ArgumentOutOfRangeException(),
-        };
-
-        if (result)
+        var value = EvalParameter("Value").Boolean;
+        if (value)
         {
             Runtime.ExecuteNextBlock();
         }
@@ -42,10 +28,7 @@ internal class If : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         (TokenType.Flow, "If "),
-        (TokenType.Expression, Parameters["Value1"]),
-        (TokenType.Text, " "),
-        (TokenType.Expression, Parameters["Operator"]),
-        (TokenType.Text, " "),
-        (TokenType.Expression, Parameters["Value2"]),
+        (TokenType.Expression, Parameters["Value"]),
+        (TokenType.Text, $":"),
     };
 }

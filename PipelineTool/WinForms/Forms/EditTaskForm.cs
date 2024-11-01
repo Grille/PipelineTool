@@ -159,7 +159,7 @@ public partial class EditTaskForm : Form
 
     static void ValidateInput(Control control, Parameter param)
     {
-        if (param.Value.Length > 0 && (param.Value[0] == '$' || param.Value[0] == '*'))
+        if (!string.IsNullOrEmpty(param.Value) && (param.Value[0] == '$' || param.Value[0] == '*'))
         {
             control.ForeColor = Color.Blue;
         }

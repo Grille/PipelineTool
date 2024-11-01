@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/File.Write")]
+[PipelineTask("IO/File/Write")]
 internal class FileWrite : PipelineTask
 {
     protected override void OnInit()

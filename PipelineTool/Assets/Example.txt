@@ -6,44 +6,45 @@
 //Double click elements to inspect them.
 //
 //Print the string literal 'Hello'
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("Hello")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("Hello")
 //
 //Assign the value 'Value' to the variable 'Var'.
-$("Var","=","Value")
+$("Var","Value")
 //
 //Print value of 'Var'.
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*Var")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("*Var")
 //
-$("FileName","=","Texture.ptx")
-$("GamePath","=","Drive/ProgramFiles/Game")
+$("FileName","Texture.ptx")
+$("GamePath","Drive/ProgramFiles/Game")
 //
 For("1","4","Index")
-    $("FullPath","=","${*GamePath}/V{*Index}/{*FileName}")
+    $("FullPath","${*GamePath}/V{*Index}/{*FileName}")
     Call("Example01_DeleteFile")
 //
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("Done!")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("Done!")
 
 [Example01_DeleteFile]
 In("Index","If Empty")
 In("FullPath","If Empty")
 //
-If("*Index","<","4")
-    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("${*Index}) Delete File: {*FullPath}")
+PipelineTool:Grille.PipelineTool.Tasks.Program.Math.CmpSize("*Index","4","C")
+If("*C")
+    PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("${*Index}) Delete File: {*FullPath}")
     Return()
 //
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("${*Index}) Ignore")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("${*Index}) Ignore")
 
 [Example02_UserInput]
 In("Name","If Empty")
 //
-$("Message","=","$Hello {*Name}")
+$("Message","$Hello {*Name}")
 //
-PipelineTool:Grille.PipelineTool.Tasks.Program.Windows.ShowMsgBox("Name","*Message","Ok/Cancel","Warn","Result")
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*Result")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Windows.ShowMsgBox("Name","*Message","Ok/Cancel","Warn","Result")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("*Result")
 
 [Example03_TextManipulation]
 //
-$("Text","=","v0, V1, v2 , 33,x4")
+$("Text","v0, V1, v2 , 33,x4")
 //
 PipelineTool:Grille.PipelineTool.Tasks.Text.StringSplit("*Text",",","List")
 //
@@ -52,12 +53,12 @@ ForEach("List","*List","Item0")
     PipelineTool:Grille.PipelineTool.Tasks.Text.StringUpperCase("*Item1","Item2")
     PipelineTool:Grille.PipelineTool.Tasks.Text.StringSection("*Item2","1","1","Item3")
 //
-    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("-----------------------")
-    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item0}'")
-    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item1}'")
-    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item2}'")
-    PipelineTool:Grille.PipelineTool.Tasks.Console.Print("$'{*Item3}'")
+    PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("-----------------------")
+    PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("$'{*Item0}'")
+    PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("$'{*Item1}'")
+    PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("$'{*Item2}'")
+    PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("$'{*Item3}'")
 //
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("-----------------------")
-PipelineTool:Grille.PipelineTool.Tasks.Console.Print("*List")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("-----------------------")
+PipelineTool:Grille.PipelineTool.Tasks.UserInterface.Print("*List")
 

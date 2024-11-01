@@ -71,11 +71,10 @@ public static partial class TextSerializer
             writer.Write(" ");
         }
 
-        if (task is NopTask)
+        if (task is NopTask nop)
         {
-            var text = task.Parameters["Text"];
             writer.Write("//");
-            writer.Write(text);
+            writer.Write(nop.Text);
             writer.WriteLine();
             return;
         }
@@ -94,7 +93,7 @@ public static partial class TextSerializer
         for (int i = 0; i < parameters.Count; i++)
         {
             var value = parameters[i];
-            Write(writer, value);
+            Write(writer, value != null ? value : string.Empty);
             if (i < parameters.Count - 1)
             {
                 writer.Write(",");
@@ -187,7 +186,9 @@ public static partial class TextSerializer
         else if (tline.StartsWith("//"))
         {
             var text = tline.Substring(2);
-            result.Add(new NopTask() { Text = text });
+            var nop = new NopTask();
+            nop.Text.Value = text;
+            result.Add(nop);
         }
         else if (tline.StartsWith("["))
         {

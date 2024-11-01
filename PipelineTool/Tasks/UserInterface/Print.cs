@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Grille.PipelineTool.Tasks.Console;
+namespace Grille.PipelineTool.Tasks.UserInterface;
 
-[PipelineTask("Console/Print")]
+[PipelineTask("UI/Print")]
 internal class Print : PipelineTask
 {
     protected override void OnInit()

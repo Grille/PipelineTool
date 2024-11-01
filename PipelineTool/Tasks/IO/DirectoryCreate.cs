@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Directory.Create")]
+[PipelineTask("IO/Directory/Create")]
 internal class DirectoryCreate : PipelineTask
 {
     protected override void OnInit()

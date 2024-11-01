@@ -149,16 +149,15 @@ namespace Grille.PipelineTool
             // 
             loadExampleToolStripMenuItem.Image = Properties.Resources.TextFile;
             loadExampleToolStripMenuItem.Name = "loadExampleToolStripMenuItem";
-            loadExampleToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            loadExampleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             loadExampleToolStripMenuItem.Text = "Load Example";
             loadExampleToolStripMenuItem.Click += loadExampleToolStripMenuItem_Click;
             // 
             // showInfoToolStripMenuItem
             // 
-            showInfoToolStripMenuItem.Enabled = false;
             showInfoToolStripMenuItem.Image = Properties.Resources.Help;
             showInfoToolStripMenuItem.Name = "showInfoToolStripMenuItem";
-            showInfoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            showInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             showInfoToolStripMenuItem.Text = "Show Tutorial";
             showInfoToolStripMenuItem.Click += showInfoToolStripMenuItem_Click;
             // 

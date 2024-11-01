@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Grille.PipelineTool.Tasks.Program;
+namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("Program/Run Process")]
+[PipelineTask("IO/Process.Run")]
 internal class RunProcess : PipelineTask
 {
     protected override void OnInit()

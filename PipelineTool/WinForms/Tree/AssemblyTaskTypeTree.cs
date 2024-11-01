@@ -29,7 +29,7 @@ public static class AssemblyTaskTypeTree
         _types = new SortedDictionary<string, TypeTreeNode>();
         _root = new NamespaceTreeNode("ROOT");
 
-        AddType<NopTask>("Comment");
+        AddType<NopTask>("Comment", PipelineTaskKind.Comment);
 
         LoadAssembly(typeof(AssemblyTaskTypeTree).Assembly);
     }
@@ -53,10 +53,10 @@ public static class AssemblyTaskTypeTree
         }
     }
 
-    public static void AddType<T>(string key) where T : PipelineTask
+    public static void AddType<T>(string key, PipelineTaskKind kind) where T : PipelineTask
     {
         var type = typeof(T);
-        var node = new TypeTreeNode(type, key);
+        var node = new TypeTreeNode(type, kind, key, null);
         _types.Add(key, node);
     }
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Path.GetExtension")]
+[PipelineTask("IO/Path/GetExtension")]
 internal class PathGetExtension : PipelineTask
 {
     protected override void OnInit()

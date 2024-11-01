@@ -69,7 +69,14 @@ public abstract class PipelineTask
                     var obj = (Parameter?)info.GetValue(this);
 
                     if (obj == null)
+                    {
                         throw new NullReferenceException();
+                    }
+
+                    if (obj.Name == null)
+                    {
+                        obj.Name = info.Name;
+                    }
 
                     Parameters.Add(obj);
                 }
@@ -80,7 +87,7 @@ public abstract class PipelineTask
         Parameters.Seal();
     }
 
-    protected abstract void OnInit();
+    protected virtual void OnInit() { }
 
     public void Execute(Runtime runtime)
     {
@@ -146,7 +153,10 @@ public abstract class PipelineTask
         var values = new List<string>();
         foreach (var para in Parameters)
         {
-            values.Add(para.Value);
+            if (para.Value != null)
+            {
+                values.Add(para.Value);
+            }
         }
 
         var tokens = new List<Token>();
@@ -177,6 +187,7 @@ public abstract class PipelineTask
         var sb = new StringBuilder();
         foreach (var token in tokens)
         {
+            if (string.IsNullOrEmpty(token.Text)) continue;
             sb.Append(token.Text.ToString());
         }
         return sb.ToString();

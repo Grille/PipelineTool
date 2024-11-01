@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/File.Move")]
+[PipelineTask("IO/File/Move")]
 internal class FileMove : PipelineTask
 {
     protected override void OnInit()

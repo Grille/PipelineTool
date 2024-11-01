@@ -15,7 +15,7 @@
 		<NeutralLanguage>aa-ER</NeutralLanguage>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>Icon_64.png</PackageIcon>
-		<Version>0.3.8</Version>
+		<Version>0.4.0</Version>
 
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>
@@ -39,6 +39,10 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Tasks\Console\" />
 	</ItemGroup>
 
 </Project>

@@ -18,37 +18,41 @@ namespace Grille.PipelineTool;
 
 public static class ParameterFactory
 {
-    public static Parameter Create(ParameterTypes type, string name, string desc, string value, object? args) => type switch
+    public static Parameter Create(ParameterTypes type, string? name, string? desc, string? value, object? args) 
     {
-        ParameterTypes.Enum => new ParameterEnum(name, desc, value, (string[])args!),
-        ParameterTypes.Integer => new ParameterInteger(name, desc, value),
-        ParameterTypes.Single => new ParameterSingle(name, desc, value),
-        ParameterTypes.Boolean => new ParameterBoolean(name, desc, value),
-        ParameterTypes.String => new ParameterString(name, desc, value),
-        ParameterTypes.OpenFile => new ParameterPath(name, desc, value, PathBoxMode.OpenFile),
-        ParameterTypes.SaveFile => new ParameterPath(name, desc, value, PathBoxMode.SaveFile),
-        ParameterTypes.Directory => new ParameterPath(name, desc, value, PathBoxMode.Directory),
-        ParameterTypes.Generic => new ParameterPath(name, desc, value, PathBoxMode.Generic),
-        ParameterTypes.Color => new ParameterPath(name, desc, value, PathBoxMode.Color),
-        ParameterTypes.Variable => new ParameterVariable(name, desc, value),
-        ParameterTypes.Object => new ParameterObject(name, desc, value),
+        var para = Create(type, args);
+        para.Name = name;
+        para.Description = desc;
+        para.Value = value;
+
+        return para;
+    }
+
+    private static Parameter Create(ParameterTypes type, object? args) => type switch
+    {
+        ParameterTypes.Enum => new ParameterEnum((string[])args!),
+        ParameterTypes.Integer => new ParameterInteger(),
+        ParameterTypes.Single => new ParameterSingle(),
+        ParameterTypes.Number => new ParameterNumber(),
+        ParameterTypes.Boolean => new ParameterBoolean(),
+        ParameterTypes.String => new ParameterString(),
+        ParameterTypes.OpenFile => new ParameterPath(PathBoxMode.OpenFile),
+        ParameterTypes.SaveFile => new ParameterPath(PathBoxMode.SaveFile),
+        ParameterTypes.Directory => new ParameterPath(PathBoxMode.Directory),
+        ParameterTypes.Generic => new ParameterPath(PathBoxMode.Generic),
+        ParameterTypes.Color => new ParameterPath(PathBoxMode.Color),
+        ParameterTypes.Variable => new ParameterVariable(),
+        ParameterTypes.Object => new ParameterObject(),
         _ => throw new NotImplementedException()
     };
 }
 
 public abstract class Parameter
 {
-    public string Name { get; }
-    public string Description { get; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
     public bool Enabled { get; set; } = true;
-    public string Value { get; set; }
-
-    public Parameter(string name, string desc, string value)
-    {
-        Name = name;
-        Description = desc;
-        Value = value;
-    }
+    public string? Value { get; set; }
 
     public virtual bool ValidateValue()
     {
@@ -65,29 +69,19 @@ public abstract class Parameter
 
 public class ParameterObject : Parameter
 {
-    public ParameterObject(string name, string desc, string value) : base(name, desc, value)
-    {
-    }
-
     public override bool ValidateValue()
     {
+        if (Value == null) return false;
         return Value.Length > 0 && Value[0] == '*';
     }
 }
 
 public class ParameterString : Parameter
 {
-    public ParameterString(string name, string desc, string value) : base(name, desc, value)
-    {
-    }
 }
 
 public class ParameterInteger : Parameter
 {
-    public ParameterInteger(string name, string desc, string value) : base(name, desc, value)
-    {
-    }
-
     public override bool ValidateValue()
     {
         return int.TryParse(Value, out _);
@@ -96,20 +90,22 @@ public class ParameterInteger : Parameter
 
 public class ParameterSingle : Parameter
 {
-    public ParameterSingle(string name, string desc, string value) : base(name, desc, value)
-    {
-    }
-
     public override bool ValidateValue()
     {
         return float.TryParse(Value, out _);
     }
 }
 
+public class ParameterNumber : Parameter
+{
+    public override bool ValidateValue()
+    {
+        return decimal.TryParse(Value, out _);
+    }
+}
+
 public class ParameterVariable : Parameter
 {
-    public ParameterVariable(string name, string desc, string value) : base(name, desc, value) { }
-
     public override bool ValidateValue()
     {
         if (string.IsNullOrEmpty(Value))
@@ -129,7 +125,7 @@ public class ParameterVariable : Parameter
 
 public class ParameterBoolean : ParameterEnum
 {
-    public ParameterBoolean(string name, string desc, string value) : base(name, desc, value, new string[] { "false", "true"})
+    public ParameterBoolean() : base(new string[] { "false", "true"})
     {
     }
 }
@@ -137,7 +133,7 @@ public class ParameterBoolean : ParameterEnum
 public class ParameterPath : Parameter
 {
     private PathBoxMode _mode;
-    public ParameterPath(string name, string desc, string value, PathBoxMode mode) : base(name, desc, value)
+    public ParameterPath(PathBoxMode mode)
     {
         _mode = mode;
     }
@@ -153,7 +149,10 @@ public class ParameterPath : Parameter
     public override Control CreateControl()
     {
         var obj = new PathBox(_mode);
-        obj.Text = Value;
+        if (Value != null)
+        {
+            obj.Text = Value;
+        }
         return obj;
     }
 }
@@ -161,7 +160,7 @@ public class ParameterPath : Parameter
 public class ParameterEnum : Parameter
 {
     public readonly string[] Args;
-    public ParameterEnum(string name, string desc, string value, string[] args) : base(name, desc, value)
+    public ParameterEnum(string[] args)
     {
         ArgumentNullException.ThrowIfNull(args);
 
@@ -202,6 +201,7 @@ public enum ParameterTypes
     Boolean,
     Enum,
     Generic,
+    Number,
     Color,
     Object,
     Variable,

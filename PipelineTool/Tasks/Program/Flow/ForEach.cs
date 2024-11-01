@@ -10,23 +10,12 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.Program.Flow;
 
-[PipelineTask("Program/Flow/For Each")]
+[PipelineTask("Program/Flow/For Each", PipelineTaskKind.Flow)]
 internal class ForEach : PipelineTask
 {
-    /*
-    public Parameter Mode { get; } = new ParameterEnum("Mode", "", "list", new string[] { "List", "Directorys", "Files" });
-    public Parameter Collection { get; } = new ParameterString("Collection", "", "1");
-    public Parameter Variable { get; } = new ParameterString("Variable", "", "i");
-    */
-
-    protected override void OnInit()
-    {
-        Parameters.Add(
-            new ParameterEnum("Mode", "", "List", new string[] { "List", "Directories", "Files" }),
-            new ParameterPath("Collection", "", "1", WinForms.PathBoxMode.Generic),
-            new ParameterVariable("Variable", "", "Item")
-        );
-    }
+    public ParameterEnum Mode { get; } = new(new string[] { "List", "Directorys", "Files" }) { Value = "List" };
+    public ParameterPath Collection { get; } = new(WinForms.PathBoxMode.Generic) { Value = "1" };
+    public ParameterVariable Variable { get; } = new() { Value = "i" };
 
     protected override void OnExecute()
     {

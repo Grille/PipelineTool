@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Directory.Clear")]
+[PipelineTask("IO/Directory/Clear")]
 internal class DirectoryClear : PipelineTask
 {
     protected override void OnInit()

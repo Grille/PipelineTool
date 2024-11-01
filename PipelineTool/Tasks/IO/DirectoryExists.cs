@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Directory.Exists")]
+[PipelineTask("IO/Directory/Exists")]
 internal class DirectoryExists : PipelineTask
 {
     protected override void OnInit()
@@ -19,10 +19,10 @@ internal class DirectoryExists : PipelineTask
 
     protected override void OnExecute()
     {
-        string var = EvalParameter("Variable");
-        string path = EvalParameter("Result");
+        string path = EvalParameter("Path");
+        string var = EvalParameter("Result");
 
-        Runtime.Variables[var] = new VariableValue(Directory.Exists(path));
+        Runtime.Variables[var] = Directory.Exists(path);
     }
 
     public override Token[] ToTokens() => new Token[]

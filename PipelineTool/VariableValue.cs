@@ -3,17 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Grille.PipelineTool;
 public struct VariableValue
 {
-    public object Value { get; set; }
+    public object Value;
 
     public VariableValue(object value)
     {
         Value = value;
+    }
+
+    public VariableValue(bool value)
+    {
+        Unsafe.SkipInit(out Value);
+        Boolean = value;
+    }
+
+    public VariableValue(decimal value)
+    {
+        Unsafe.SkipInit(out Value);
+        Number = value;
     }
 
     public T GetAs<T>() { return (T)Value; }
@@ -28,6 +41,10 @@ public struct VariableValue
         obj = default;
         return false;
     }
+
+    public static implicit operator VariableValue(bool value) => new VariableValue(value);
+
+    public static implicit operator VariableValue(decimal value) => new VariableValue(value);
 
     public static implicit operator VariableValue(string value) => new VariableValue(value);
 
@@ -90,5 +107,51 @@ public struct VariableValue
         var value = Value.ToString();
 
         return value == null ? string.Empty : value;
+    }
+
+    public bool Boolean
+    {
+        get
+        {
+            if (Value is decimal d)
+            {
+                return d > 0;
+            }
+            if (Value is string s)
+            {
+                if (s.Length == 0) return false;
+                else if (s[0] == 't' || s[0] == 'T') return true;
+                else if (s[0] == 'f' || s[0] == 'F') return false;
+                else if (decimal.TryParse(Value.ToString(), out d))
+                {
+                    return d > 0;
+                }
+            }
+            return false;
+        }
+        set
+        {
+            Value = value ? 1m : 0m;
+        }
+    }
+
+    public decimal Number
+    {
+        get
+        {
+            if (Value is decimal d)
+            {
+                return d;
+            }
+            else if (decimal.TryParse(Value.ToString(), out d))
+            {
+                return d;
+            }
+            return 0;
+        }
+        set
+        {
+            Value = value;
+        }
     }
 }

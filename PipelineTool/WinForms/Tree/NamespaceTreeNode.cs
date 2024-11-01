@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Drawing;
 
 namespace Grille.PipelineTool.WinForms.Tree;
 
@@ -18,6 +19,8 @@ public class NamespaceTreeNode : TreeNode
     {
         Name = name;
         Text = name;
+
+        ForeColor = Color.DimGray;
     }
 
     public void Init()

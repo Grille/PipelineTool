@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Zip.Pack")]
+[PipelineTask("IO/Zip/Pack")]
 internal class ZipPack : PipelineTask
 {
     protected override void OnInit()

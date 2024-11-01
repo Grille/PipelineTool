@@ -8,7 +8,7 @@ using Grille.PipelineTool.IO;
 
 namespace Grille.PipelineTool.Tasks.IO;
 
-[PipelineTask("IO/Directory.Copy")]
+[PipelineTask("IO/Directory/Copy")]
 internal class DirectoryCopy : PipelineTask
 {
     protected override void OnInit()

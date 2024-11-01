@@ -10,27 +10,14 @@ namespace Grille.PipelineTool.Tasks;
 
 internal class NopTask : PipelineTask
 {
-    public string Text { get => Parameters["Text"]; set => Parameters["Text"] = value; }
+    public ParameterString Text { get; } = new();
 
-    protected override void OnInit()
-    {
-        CanParse = true;
-        Parameters.Def(ParameterTypes.String, "Text", "", "");
-    }
-
-    protected override void OnExecute()
-    {
-    }
-
-    protected override void OnParse(string text)
-    {
-
-    }
+    protected override void OnExecute() { }
 
     public override Token[] ToTokens()
     {
-        var value = Parameters["Text"];
-        var token = value == "" ? new Token(TokenType.Comment, "") : new Token(TokenType.Comment, $"// {value}");
+        var value = Text.Value;
+        var token = string.IsNullOrEmpty(value) ? new Token(TokenType.Comment, "") : new Token(TokenType.Comment, $"// {value}");
         return new Token[] { token };
     }
 }
