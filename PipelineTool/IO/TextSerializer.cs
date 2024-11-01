@@ -74,7 +74,7 @@ public static partial class TextSerializer
         if (task is NopTask nop)
         {
             writer.Write("//");
-            writer.Write(nop.Text);
+            writer.Write(nop.Text.Value);
             writer.WriteLine();
             return;
         }
