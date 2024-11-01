@@ -18,7 +18,7 @@ namespace Grille.PipelineTool;
 
 public static class ParameterFactory
 {
-    public static Parameter Create(ParameterTypes type, string? name, string? desc, string? value, object? args) 
+    public static Parameter Create(ParameterTypes type, string? name, string? desc = null, string? value = null, object? args = null) 
     {
         var para = Create(type, args);
         para.Name = name;

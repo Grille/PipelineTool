@@ -20,9 +20,6 @@ public class ParameterGroup : IEnumerable<Parameter>
         if (IsSealed == true)
             throw new InvalidOperationException();
 
-        if (desc == null) desc = string.Empty;
-        if (value == null) value = string.Empty;
-
         var parameter = ParameterFactory.Create(type, name, desc, value, args);
         Add(parameter);
         return parameter;

@@ -12,7 +12,7 @@ namespace Grille.PipelineTool.Tasks.Program.Flow;
 [PipelineTask("Program/Flow/While", PipelineTaskKind.Flow)]
 internal class While : PipelineTask
 {
-    public ParameterVariable Condition { get; } = new();
+    public ParameterVariable Condition { get; } = new() { Value = "1" };
 
     protected override void OnExecute()
     {
@@ -26,7 +26,7 @@ internal class While : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         new Token(TokenType.Flow, $"While "),
-        new Token(TokenType.Expression, Parameters["Condition"]),
+        new Token(TokenType.Expression, Condition.Value),
         new Token(TokenType.Text, $":"),
     };
 }

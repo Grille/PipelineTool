@@ -10,14 +10,11 @@ namespace Grille.PipelineTool.Tasks.Program.Flow;
 [PipelineTask("Program/Flow/If", PipelineTaskKind.Flow)]
 internal class If : PipelineTask
 {
-    protected override void OnInit()
-    {
-        Parameters.Def(ParameterTypes.String, "Value", "", "1");
-    }
+    public ParameterVariable Condition { get; } = new() { Value = "1" };
 
     protected override void OnExecute()
     {
-        var value = EvalParameter("Value").Boolean;
+        var value = EvalParameter(Condition).Boolean;
         if (value)
         {
             Runtime.ExecuteNextBlock();
@@ -28,7 +25,7 @@ internal class If : PipelineTask
     public override Token[] ToTokens() => new Token[]
     {
         (TokenType.Flow, "If "),
-        (TokenType.Expression, Parameters["Value"]),
+        (TokenType.Expression, Condition.Value),
         (TokenType.Text, $":"),
     };
 }
