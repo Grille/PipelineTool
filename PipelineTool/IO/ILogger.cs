@@ -19,11 +19,19 @@ public interface ILogger
     public void Error(string obj);
 
     public string? Input();
+
+    public void ClearScope();
+
+    public void IncScope();
+
+    public void DecScope();
 }
 
 class ConsoleLogger : ILogger
 {
     public static ConsoleLogger Instance { get; } = new ConsoleLogger();
+
+    private int _scope;
 
     public void WriteLine(string text, ConsoleColor color)
     {
@@ -42,4 +50,19 @@ class ConsoleLogger : ILogger
     public string? Input() => Console.ReadLine();
 
     public void Clear() => Console.Clear();
+
+    public void IncScope()
+    {
+        _scope += 1;
+    }
+
+    public void DecScope()
+    {
+        _scope -= 1;
+    }
+
+    public void ClearScope()
+    {
+        _scope = 0;
+    }
 }

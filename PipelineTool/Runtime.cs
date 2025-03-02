@@ -96,6 +96,7 @@ public class Runtime
         CallStack.Clear();
         ScopeStack.Clear();
         ValueStack.Clear();
+        Logger.ClearScope();
         InvPosChanged();
     }
 
@@ -158,11 +159,13 @@ public class Runtime
     {
         var variables = ScopeStack.Count > 0 && InherentParentScopeVariablesEnabled ? new Variables(Variables) : new Variables();
         ScopeStack.Push(variables);
+        Logger.IncScope();
     }
 
     public void DecVariableScope()
     {
         ScopeStack.Pop();
+        Logger.DecScope();
     }
 
     public void Return()

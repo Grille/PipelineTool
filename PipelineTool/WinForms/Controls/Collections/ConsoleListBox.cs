@@ -12,7 +12,9 @@ namespace Grille.PipelineTool.WinForms.Controls.Collections;
 
 public class ConsoleListBox : ListBox<ConsoleListBox.LogEntry>, ILogger
 {
-    public record LogEntry(DateTime Date, Brush Brush, object Obj);
+    public record LogEntry(DateTime Date, int Scope, Brush Brush, object Obj);
+
+    private int _scope;
 
     public ConsoleListBox()
     {
@@ -51,7 +53,7 @@ public class ConsoleListBox : ListBox<ConsoleListBox.LogEntry>, ILogger
 
     void Add(Brush brush, string text)
     {
-        var entry = new LogEntry(DateTime.Now, brush, text);
+        var entry = new LogEntry(DateTime.Now, _scope, brush, text);
         Invoke(() =>
         {
             Items.Add(entry);
@@ -70,12 +72,20 @@ public class ConsoleListBox : ListBox<ConsoleListBox.LogEntry>, ILogger
             g.FillRectangle(new SolidBrush(Color.LightBlue), e.Bounds);
         }
 
-        g.DrawString(item.Obj.ToString(), Font, item.Brush, e.Bounds);
+        var str = item.Obj.ToString()!;
+        var sb = new StringBuilder(str.Length + item.Scope * 2);
+        for (var i = 0; i < item.Scope; i++)
+        {
+            sb.Append("  ");
+        }
+        sb.Append(str);
+
+        g.DrawString(sb.ToString(), Font, item.Brush, e.Bounds);
     }
 
     protected override LogEntry CreateNew()
     {
-        return new LogEntry(DateTime.Now, Brushes.Black, string.Empty);
+        return new LogEntry(DateTime.Now, _scope, Brushes.Black, string.Empty);
     }
 
     protected override void OnCopyToClipboard()
@@ -95,5 +105,20 @@ public class ConsoleListBox : ListBox<ConsoleListBox.LogEntry>, ILogger
     protected override void OnPasteFromClipboard()
     {
         return;
+    }
+
+    public void IncScope()
+    {
+        _scope += 1;
+    }
+
+    public void DecScope()
+    {
+        _scope -= 1;
+    }
+
+    public void ClearScope()
+    {
+        _scope = 0;
     }
 }
